@@ -6,16 +6,15 @@ import sql from 'mssql';
 
 export class Usuario {
 
-    static Login = async (nombre, mail, contrasenna) => {
-        console.log("Estoy en log-in");
+    static Login = async (mail, contrasenna) => {
+        console.log("Estoy en log-in", mail, contrasenna);
         let returnEntity = null;
         try {
             let pool = await sql.connect(config)
             let result = await pool.request()
-                .input("pNombre", sql.NVarChar(4000), nombre)
                 .input("pMail", sql.NVarChar(4000), mail)
                 .input("pContrasenna", sql.NVarChar(4000), contrasenna)
-                .query("SELECT * FROM Usuario WHERE (Nombre = @pNombre AND Contrasenna = @pContrasenna) OR (Mail = @pMail AND Contrasenna = @pContrasenna)");
+                .query("SELECT * FROM Usuario WHERE Mail = @pMail AND Contrasenna = @pContrasenna");
             returnEntity = result.recordsets[0];
         } catch (error) {
             console.log(error);
@@ -24,17 +23,15 @@ export class Usuario {
     }
 
     static Register = async (Usuario) => {
-        console.log("Estoy en: register :o");
-        const { Nombre, Telefono, Mail, Contrasenna, Foto, fkRol, } = Usuario
+        const { nombre, telefono, mail, contrasenna, foto } = Usuario
+        let fkRol = 3; // Rol por default
         let pool = await sql.connect(config)
-        console.log("FKROL :" , fkRol)
-        console.log("Nombre:,", Nombre)
         let result = await pool.request()
-            .input('Nombre', sql.NVarChar(4000), Nombre)
-            .input('Telefono', sql.NVarChar(4000), Telefono)
-            .input('Mail', sql.NVarChar(4000), Mail)
-            .input('Contrasenna', sql.NVarChar(4000), Contrasenna)
-            .input('Foto', sql.NVarChar(4000), Foto)
+            .input('Nombre', sql.NVarChar(4000), nombre)
+            .input('Telefono', sql.NVarChar(4000), telefono)
+            .input('Mail', sql.NVarChar(4000), mail)
+            .input('Contrasenna', sql.NVarChar(4000), contrasenna)
+            .input('Foto', sql.NVarChar(4000), foto)
             .input('fkRol', sql.Int, fkRol)
             .query('INSERT INTO Usuario (Nombre, Telefono, Mail, Contrasenna, Foto, fkRol) VALUES (@Nombre, @Telefono, @Mail, @Contrasenna, @Foto, @fkRol)')
     }

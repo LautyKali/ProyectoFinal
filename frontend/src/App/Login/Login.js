@@ -2,14 +2,23 @@ import React, { useState } from "react";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import "./Login.css";
-export default function Login() {
+import axios from 'axios';
+
+ function Login() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+
     function validateForm() {
         return email.length > 0 && password.length > 0;
     }
-        function handleSubmit(event) {
+    
+    function handleSubmit(event) {
         event.preventDefault();
+        let usuario = {
+            nombre: event.target.nombre.value,
+            contrasenna: event.target.contrasenna.value
+        }
+        const client = axios.get('http://localhost:3000/login', usuario)
     }
     return (
         <div className="Login">
@@ -24,7 +33,7 @@ export default function Login() {
                     />
                 </Form.Group>
                 <Form.Group size="lg" controlId="password">
-                    <Form.Label>Password</Form.Label>
+                    <Form.Label>Contraseña</Form.Label>
                     <Form.Control
                         type="password"
                         value={password}
@@ -38,3 +47,4 @@ export default function Login() {
         </div>
     );
 }
+export default Login;

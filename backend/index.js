@@ -3,7 +3,7 @@ import { Usuario, Cancha, Lugar } from "./Services.js";
 import config from './dbconfig.js';
 import sql from 'mssql';
 const app = express();
-const port = 5000;
+const port = 5001;
 app.use(express.json())
 
 //funca
@@ -17,13 +17,13 @@ app.post('/registro',async(req,res) =>{
         res.status(500).json({error : 'Fallo el registro'})
     }
 
-    const usuario = await Usuario.Register()
-    res.status(200).send(usuario)
+    //const usuario = await Usuario.Register()
+    //res.status(200).send(usuario)
 })
 
-//no funca
-app.get('/login',async(req,res) =>{
-    const ususario = await Usuario.Login(req.params.nombre, req.params.email, req.params.contrasenna)
+//funca
+app.post('/login',async(req,res) =>{
+    const ususario = await Usuario.Login(req.body.mail, req.body.contrasenna)
     res.status(200).json(ususario)
 })
 
