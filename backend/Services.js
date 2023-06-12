@@ -16,8 +16,9 @@ export class Usuario {
                 .input("pContrasenna", sql.NVarChar(4000), contrasenna)
                 .query("SELECT * FROM Usuario WHERE Mail = @pMail AND Contrasenna = @pContrasenna");
             returnEntity = result.recordsets[0];
+            console.log(returnEntity)
         } catch (error) {
-            console.log(error);
+            console.log(error, "");
         }
         return returnEntity;
     }

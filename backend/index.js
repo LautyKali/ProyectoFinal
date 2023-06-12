@@ -2,10 +2,11 @@ import  express from "express";
 import { Usuario, Cancha, Lugar } from "./Services.js";
 import config from './dbconfig.js';
 import sql from 'mssql';
+import cors from 'cors';
 const app = express();
 const port = 5001;
 app.use(express.json())
-
+app.use(cors());
 //funca
 app.post('/registro',async(req,res) =>{
     try{
@@ -23,8 +24,15 @@ app.post('/registro',async(req,res) =>{
 
 //funca
 app.post('/login',async(req,res) =>{
-    const ususario = await Usuario.Login(req.body.mail, req.body.contrasenna)
-    res.status(200).json(ususario)
+    try{
+        console.log(req.body)
+        await Usuario.Login(req.body.mail, req.body.contrasenna)
+        res.status(200).json({message : 'Usuario encontrado'})  
+    }catch(error){
+        console.log(error)
+        res.status(404).json({error : 'No se encontro el usuario'})
+    }
+
 })
 
 //funca
