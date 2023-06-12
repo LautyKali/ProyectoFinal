@@ -22,12 +22,12 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/LautyKali/ProyectoFinal-SQL.git"
+    "url": "git+https://github.com/LautyKali/ProyectoFinal.git"
   },
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/LautyKali/ProyectoFinal-SQL.git/issues"
+    "url": "https://github.com/LautyKali/ProyectoFinal.git/issues"
   },
   "homepage": "https://github.com/LautyKali/ProyectoFinal#readme",
   "description": "",

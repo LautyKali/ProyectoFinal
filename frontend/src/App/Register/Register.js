@@ -2,112 +2,80 @@ import { useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import './Register.css';
-import {Link} from 'react-router-dom'
-import {useNavigate} from 'react-router-dom'
+import { Link } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import axios from 'axios';
-import React, { Component }  from 'react';
+import React, { Component } from 'react';
 
 function Registrarse() {
-  const [validated, setValidated] = useState(false);
-  const [values, setValues] = useState({});
-  const Navigate = useNavigate('/login');
-  const handleChange = (event) => {
-    setValues({...values, [event.target.name]:event.target.value 
-    })
-  }
+  const [mail, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [nombre,setNombre] = useState("");
+  const [telefono,setTelefono] = useState("");
+  const Navigate = useNavigate('');
+
+
   const handleSubmit = (event) => {
     event.preventDefault();
-    const form = event.currentTarget;
-    console.log(values)
-    console.log(event.target)
-    if (form.checkValidity() === false) {
-      event.preventDefault();
-      event.stopPropagation();
-    }
-    axios.post('http://localhost:5001/registro', values)
+    let usuario = {
+      nombre : nombre,
+      contrasenna: password,
+      mail : mail,
+      telefono : telefono,
+
+  }
+    axios.post('http://localhost:5001/registro', usuario)
       .then(res => {
-        Navigate('/login') 
+        Navigate('/login')
       })
       .catch(e => {
         console.log(e.response.status, e.data);
       });
-    setValidated(true);
   };
+  function validateForm() {
+    return mail.length > 0 && password.length > 0;
+  }
 
   return (
-    <div className='container'>
-      <Form onSubmit={(e) => handleSubmit(e)} noValidate validated={validated} className='form'>
-        <Form.Group /*as={Col} md="4"*/ controlId="validationCustom01">
+    <div className='Register'>
+      <Form onSubmit={handleSubmit}>
+        <Form.Group size="lg" controlId="nombre">
           <Form.Label>Nombre</Form.Label>
           <Form.Control
-            required
+            autoFocus
             type="text"
-            placeholder="Nombre"
-            defaultValue=""
-            name="Nombre"
-            onChange={handleChange}
+            value={nombre}
+            onChange={(e) => setNombre(e.target.value)}
           />
         </Form.Group>
-        <br></br>
-        <Form.Group /*as={Col} md="4"*/ controlId="validationCustom02">
-          <Form.Label>telefono</Form.Label>
-          <Form.Control
-            required
-            type="text"
-            placeholder="Telefono"
-            defaultValue=""
-            name="Telefono"
-            onChange={handleChange}
-          />
-        </Form.Group>
-        <br></br>
-        <Form.Group /*as={Col} md="4"*/ controlId="validationCustom02">
+        <Form.Group size="lg" controlId="password">
           <Form.Label>Contraseña</Form.Label>
           <Form.Control
-            required
             type="password"
-            placeholder="Contrasenna"
-            defaultValue=""
-            name="Contrasenna"
-            onChange={handleChange}
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
           />
         </Form.Group>
-        <br></br>
-        <Form.Group /*as={Col} md="4"*/ controlId="validationCustom02">
-          <Form.Label>Telefono</Form.Label>
-          <Form.Control
-            required
-            type="text"
-            placeholder="telefono"
-            defaultValue=""
-            name="telefono"
-            onChange={handleChange}
-          />
-        </Form.Group>
-        <br></br>
-        <Form.Group /*as={Col} md="4"*/ controlId="validationCustom02">
+        <Form.Group size="lg" controlId="email">
           <Form.Label>Mail</Form.Label>
           <Form.Control
-            required
             type="email"
-            placeholder="Mail"
-            defaultValue=""
-            name="Mail"
-            onChange={handleChange}
+            value={mail}
+            onChange={(e) => setEmail(e.target.value)}
           />
         </Form.Group>
-        <Form.Group /*as={Col} md="4"*/ controlId="validationCustom02">
-          <Form.Label>Foto</Form.Label>
+        <Form.Group size="lg" controlId="telefono">
+          <Form.Label>Telefono</Form.Label>
           <Form.Control
-            type="file"
-            defaultValue=""
-            name="Foto"
-            onChange={handleChange}
+            type="text"
+            value={telefono}
+            onChange={(e) => setTelefono(e.target.value)}
           />
         </Form.Group>
-        <br></br>
-        <Button type="submit" className='form'>Registrarse</Button>
-        <Link to="login" className="btn btn-light form">Iniciar Sesion</Link>
+        <Button block size="lg" type="submit" disabled={!validateForm()}>
+          Registrarse
+        </Button>
+        <Link to="login" className="btn btn-light form">Ingresar</Link>
       </Form>
     </div>
   );
