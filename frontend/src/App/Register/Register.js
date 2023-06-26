@@ -13,8 +13,10 @@ function Registrarse() {
   const [nombre,setNombre] = useState("");
   const [telefono,setTelefono] = useState("");
   const Navigate = useNavigate('');
-
-
+  const navigate = useNavigate();
+    const navigateToLogin = () => { 
+        navigate('/Login');
+    }
   const handleSubmit = (event) => {
     event.preventDefault();
     let usuario = {
@@ -35,6 +37,9 @@ function Registrarse() {
   function validateForm() {
     return mail.length > 0 && password.length > 0;
   }
+
+  document.body.classList = ["register"];
+
 
   return (
     <div className='Register'>
@@ -75,7 +80,7 @@ function Registrarse() {
         <Button block size="lg" type="submit" disabled={!validateForm()}>
           Registrarse
         </Button>
-        <Link to="login" className="btn btn-light form">Ingresar</Link>
+        <Button onClick={navigateToLogin} className="btn btn-light form">Ingresar</Button>
       </Form>
     </div>
   );

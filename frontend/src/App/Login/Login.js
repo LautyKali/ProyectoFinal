@@ -3,8 +3,6 @@ import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import "./Login.css";
 import axios from 'axios';
-import { Navigate } from "react-router-dom";
-import {Link} from 'react-router-dom'
 import { useNavigate } from 'react-router-dom';
 
  function Login() {
@@ -24,10 +22,11 @@ import { useNavigate } from 'react-router-dom';
         }
         axios.post('http://localhost:5001/login', usuario)
         .then(res =>{
-            Navigate('/home')
+            Navigate('/Lugar')
         }).catch(e => {
             console.log(e.response.status, e.data, usuario)
         })
+        document.body.classList = ["login"];
     }
     return (
         <div className="Login">
@@ -52,7 +51,7 @@ import { useNavigate } from 'react-router-dom';
                 <Button color="blue" block size="lg" type="submit" disabled={!validateForm()}>
                     Login
                 </Button>
-                <Link onClick={()=>Navigate(-1)}>Registrarse</Link>
+                <Button onClick={()=>Navigate(-1)}>Registrarse</Button>
             </Form>
         </div> 
     );

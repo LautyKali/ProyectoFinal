@@ -11,3 +11,21 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+body.home {
+  color: red;
+  margin: 0;
+  padding: 0;
+  font-family: sans-serif;
+  min-height: 100%;
+  padding-bottom: 5rem;
+  text-align: center;
+  margin-top: 15%;
+  background-image:url("https://campus.ort.edu.ar/static/archivos/usuarioperfil/73323");
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+body.register {
+  color: green;
+}
