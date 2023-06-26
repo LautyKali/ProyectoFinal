@@ -18,8 +18,6 @@ app.post('/registro',async(req,res) =>{
         res.status(500).json({error : 'Fallo el registro'})
     }
 
-    //const usuario = await Usuario.Register()
-    //res.status(200).send(usuario)
 })
 
 //funca
@@ -88,7 +86,29 @@ app.delete('/cancha/delete/:id', async(req,res) => {
     const cancha = await Cancha.deleteById(req.params.id)
     res.status(202).send(cancha)
 })
+
+//funca
+app.get('/lugar', async(req,res) => {
+    const lugar = await Lugar.getAll();
+    console.log(lugar);
+    res.status(200).json(lugar);
+})
+//funca
+app.delete('/lugar/delete/:id', async(req,res) => {
+    const lugar = await Lugar.deleteById(req.params.id)
+    res.status(202).send(lugar)
+})
+//funca
+app.post('/lugar/post', async(req,res) =>{
+    try{
+        await Lugar.insert(req.body)
+        res.status(201).json({message: 'Lugar creada'})
+    } catch (error){
+        console.log(error)
+        res.status(500).json({error : 'Fallo la creacion'})
+    }
+})
+
 app.listen(port,() =>{
     console.log(`Example app listening on port ${port}`)
 })
-
