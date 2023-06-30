@@ -1,4 +1,5 @@
-import { React, useState, useEffect } from "react";
+import { useState, useEffect } from "react";
+import React from 'react';
 import Card from 'react-bootstrap/Card';
 import Button from "react-bootstrap/Button";
 import "./Lugar.css";
@@ -7,7 +8,7 @@ import axios from 'axios';
 import { useFetcher, useNavigate } from 'react-router-dom';
 
 
-/*function Lugar() {
+function Lugar() {
     const [lugares, setLugares] = useState([]);
     const Navigate = useNavigate('');
     const [isLoading, setIsLoading] = useState(true);
@@ -53,11 +54,6 @@ import { useFetcher, useNavigate } from 'react-router-dom';
 
 
     );
-}*/
-
-function Lugar() {
-    return (
-        <div> PEPE </div>
-    )
 }
+
 export default Lugar;
