@@ -23,7 +23,9 @@ import { useNavigate } from 'react-router-dom';
         axios.post('http://localhost:5001/login', usuario)
         .then(res =>{
             Navigate('/Lugar')
+            console.log(res)
         }).catch(e => {
+            alert("Mail o contraseña incorrectos")
             console.log(e.response.status, e.data, usuario)
         })
         document.body.classList = ["login"];
@@ -48,10 +50,11 @@ import { useNavigate } from 'react-router-dom';
                         onChange={(e) => setPassword(e.target.value)}
                     />
                 </Form.Group>
-                <Button color="blue" block size="lg" type="submit" disabled={!validateForm()}>
-                    Login
+                <Button onClick={()=>Navigate(-1)}>Registrarse
                 </Button>
-                <Button onClick={()=>Navigate(-1)}>Registrarse</Button>
+                
+                <Button color="blue" block size="lg" type="submit" disabled={!validateForm()}>
+                    Login </Button>
             </Form>
         </div> 
     );

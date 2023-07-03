@@ -2,56 +2,65 @@ import { useState, useEffect } from "react";
 import React from 'react';
 import Card from 'react-bootstrap/Card';
 import Button from "react-bootstrap/Button";
-import "./Lugar.css";
-import { Navigate } from "react-router-dom";
+import "./Canchas.css";
+import { Navigate, useLocation } from "react-router-dom";
 import axios from 'axios';
 import { useFetcher, useNavigate } from 'react-router-dom';
 
 
-function Lugar() {
-    const [lugares, setLugares] = useState([]);
-    const Navigate = useNavigate('');
+
+function Canchas() {
+    const [cancha, setCancha] = useState("");
+     
+    const {state} = useLocation();
+    const {id} = state;
+    console.log("WOAAAAAAA", id);
+
     useEffect(() => {
         console.log("LMAO");
-        axios.get("http://localhost:5001/lugar")
+        axios.get("http://localhost:5001/cancha/" + id)
             .then(res => {
                 console.log("AXIOSRES", res)
-                setLugares(
+                setCancha(
                     res.data
                 );
             })
     }, [])
 
-    const navigateToCanchas = (Id) => {
-        Navigate('/Canchas/', {state: {id: Id}});
-    }
+  
 
     
-    if(lugares.length === 0) return (<div></div>);
+    if(cancha.length === 0) return (<div></div>);
 
     return (
- 
+
             <div>
                 {
-                    lugares.map((element) =>
-                    (<Card>
+                    
+                    cancha.map((element) =>
+                    (
+                    
+                    <Card>
                         <Card.Header><img className="card-img-top" src={element.Foto} alt="Card image cap"></img></Card.Header>
                         <Card.Body>
                             <Card.Title><h1>{element.Nombre}</h1></Card.Title>
                             <Card.Text>
-                                {element.Ubicacion}<br/><br/>
-                                Zona: {element.Zona}
+                                {element.Deporte}<br/><br/>
+                                 {element.EnReparacion}<br/><br/>
+                                 {element.CantPersonas}<br/><br/>
+                                 {element.TipoPiso}<br/><br/>
+                                 {element.Precio}
                                 
                             </Card.Text>
-                            <Button onClick={() => navigateToCanchas(element.Id)} variant="primary">Ver más</Button>
                         </Card.Body>
                     </Card>)
                     )
                 }
+                asdasdasd
             </div>
 
 
     );
 }
 
-export default Lugar;
+export default Canchas;
