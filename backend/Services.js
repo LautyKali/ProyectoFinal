@@ -96,13 +96,14 @@ export class Usuario {
 }
 export class Cancha {
 
-    static getAll = async () => {
+    static getAllById = async (Id) => {
         let returnEntity = null;
-        console.log("Estoy en: GetAll");
+        console.log("Estoy en: GetAllById");
         try {
             let pool = await sql.connect(config)
             let result = await pool.request()
-                .query("SELECT * FROM Cancha");
+                .input('pId', sql.Int(), Id)
+                .query("SELECT * FROM Cancha INNER JOIN Lugar L on Cancha.fkLugar = L.Id WHERE L.Id= @pId");
             // console.log(result.recordset);
             returnEntity = result.recordset;
         } catch (error) {
@@ -182,7 +183,7 @@ export class Lugar {
         try {
             let pool = await sql.connect(config)
             let result = await pool.request()
-                .query("SELECT Nombre, Ubicacion,Zona,Foto FROM Lugar");
+                .query("SELECT * FROM Lugar");
             returnEntity = result.recordsets[0];
         } catch (error) {
             console.log(error);

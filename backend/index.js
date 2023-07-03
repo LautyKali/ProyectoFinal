@@ -24,8 +24,14 @@ app.post('/registro',async(req,res) =>{
 app.post('/login',async(req,res) =>{
     try{
         console.log(req.body)
-        await Usuario.Login(req.body.mail, req.body.contrasenna)
-        res.status(200).json({message : 'Usuario encontrado'})  
+        const response = await Usuario.Login(req.body.mail, req.body.contrasenna)
+        console.log(response);
+        if (response.length === 0) {
+            res.status(401).json({message: "lol"});
+        } else {
+            res.status(200).json({usuario: response})
+        }
+        //res.status(200).json({message : 'Usuario encontrado'})  
     }catch(error){
         console.log(error)
         res.status(404).json({error : 'No se encontro el usuario'})
@@ -47,8 +53,8 @@ app.put('/usuario/cambiarusuario',async(req,res) => {
 })
 
 //funca
-app.get('/cancha', async(req,res) => {
-    const cancha = await Cancha.getAll();
+app.get('/cancha/:id', async(req,res) => {
+    const cancha = await Cancha.getAllById(req.params.id);
     console.log(cancha);
     res.status(200).json(cancha);
 })
