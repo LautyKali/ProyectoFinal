@@ -15,7 +15,8 @@ function comenzar() {
     document.body.classList = ["home"];
 
     return (
-        <div className="mb-2 hola">
+        <div className="d-grid gap-2 ">
+          <h2>TU CANCHA EN SEGUNDOS</h2>
           <Button onClick={navigateToRegister} variant="primary" size="lg">
             Comenzar⮕
           </Button>

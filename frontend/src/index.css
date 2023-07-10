@@ -13,7 +13,7 @@ code {
 }
 
 body.home {
-  color: red;
+  color: black;
   margin: 0;
   padding: 0;
   font-family: sans-serif;
@@ -27,5 +27,15 @@ body.home {
 }
 
 body.register {
-  color: green;
+  margin: 0;
+  padding: 0;
+  font-family: sans-serif;
+  min-height: 100%;
+  padding-bottom: 5rem;
+  text-align: center;
+  margin-top: 15%;
+  background-image:url("https://afopro.com/wp-content/uploads/2020/02/cuando-entrenas-a-ni%C3%B1as.png");
+  background-repeat: no-repeat;
+  background-size: cover;
 }
+

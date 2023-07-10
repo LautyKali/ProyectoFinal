@@ -6,6 +6,9 @@ import "./Canchas.css";
 import { Navigate, useLocation } from "react-router-dom";
 import axios from 'axios';
 import { useFetcher, useNavigate } from 'react-router-dom';
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
+import Container from 'react-bootstrap/Container';
 
 
 
@@ -31,33 +34,35 @@ function Canchas() {
 
     
     if(cancha.length === 0) return (<div></div>);
-
+    document.body.classList = ["Canchas"];
     return (
-
-            <div>
+        <Container>
+        <Row>
                 {
-                    
                     cancha.map((element) =>
                     (
                     
+                        <Col sm={4}>
                     <Card>
                         <Card.Header><img className="card-img-top" src={element.Foto} alt="Card image cap"></img></Card.Header>
                         <Card.Body>
                             <Card.Title><h1>{element.Nombre}</h1></Card.Title>
                             <Card.Text>
-                                {element.Deporte}<br/><br/>
-                                 {element.EnReparacion}<br/><br/>
+                                {element.Deporte}<br/>
+                                 {element.EnReparacion}<br/>
                                  {element.CantPersonas}<br/><br/>
                                  {element.TipoPiso}<br/><br/>
                                  {element.Precio}
                                 
                             </Card.Text>
                         </Card.Body>
-                    </Card>)
+                    </Card>
+                     </Col> 
+                    )
                     )
                 }
-                asdasdasd
-            </div>
+                  </Row>
+                  </Container>
 
 
     );

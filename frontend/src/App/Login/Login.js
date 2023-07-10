@@ -4,6 +4,7 @@ import Button from "react-bootstrap/Button";
 import "./Login.css";
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import { Link } from "react-router-dom";
 
  function Login() {
     const [mail, setEmail] = useState("");
@@ -28,8 +29,8 @@ import { useNavigate } from 'react-router-dom';
             alert("Mail o contraseña incorrectos")
             console.log(e.response.status, e.data, usuario)
         })
-        document.body.classList = ["login"];
     }
+    document.body.classList = ["login"];
     return (
         <div className="Login">
             <Form onSubmit={handleSubmit}> 
@@ -49,6 +50,9 @@ import { useNavigate } from 'react-router-dom';
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
                     />
+                </Form.Group>
+                <Form.Group size="lg">
+                <Link to="olvideContra" style={{fontSize: "80%"}}  >¿Olvidaste tu contraseña?</Link>
                 </Form.Group>
                 <Button onClick={()=>Navigate(-1)}>Registrarse
                 </Button>

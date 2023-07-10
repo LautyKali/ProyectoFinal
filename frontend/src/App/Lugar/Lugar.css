@@ -1,3 +1,11 @@
 div{
     color: aliceblue;
 }
+
+.card{
+    background-color: purple;
+    margin-bottom: 10%;
+    text-align: center;
+    justify-content: center;
+
+}

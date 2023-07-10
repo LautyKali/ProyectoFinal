@@ -6,7 +6,9 @@ import "./Lugar.css";
 import { Navigate } from "react-router-dom";
 import axios from 'axios';
 import { useFetcher, useNavigate } from 'react-router-dom';
-
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
+import Container from 'react-bootstrap/Container'
 
 function Lugar() {
     const [lugares, setLugares] = useState([]);
@@ -28,13 +30,16 @@ function Lugar() {
 
     
     if(lugares.length === 0) return (<div></div>);
-
+    document.body.classList = ["Lugar"];
     return (
  
-            <div>
+        <Container>
+        <Row>             
                 {
                     lugares.map((element) =>
-                    (<Card>
+                    (
+                    <Col sm={6}>
+                    <Card >
                         <Card.Header><img className="card-img-top" src={element.Foto} alt="Card image cap"></img></Card.Header>
                         <Card.Body>
                             <Card.Title><h1>{element.Nombre}</h1></Card.Title>
@@ -45,11 +50,13 @@ function Lugar() {
                             </Card.Text>
                             <Button onClick={() => navigateToCanchas(element.Id)} variant="primary">Ver más</Button>
                         </Card.Body>
-                    </Card>)
+                    </Card>
+                    </Col>
+                    )
                     )
                 }
-            </div>
-
+                </Row> 
+                </Container>
 
     );
 }
