@@ -33,6 +33,7 @@ import { Link } from "react-router-dom";
     document.body.classList = ["login"];
     return (
         <div className="Login">
+            <h1>CANCHEROS</h1>
             <Form onSubmit={handleSubmit}> 
                 <Form.Group size="lg" controlId="email">
                     <Form.Label>Email</Form.Label>

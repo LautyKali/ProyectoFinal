@@ -34,15 +34,20 @@ function Registrarse() {
         console.log(e.response.status, e.data);
       });
   };
+
   function validateForm() {
     return mail.length > 0 && password.length > 0;
   }
 
   document.body.classList = ["register"];
-
-
   return (
-    <div className='Register'>
+    
+    <div 
+    className='Register'>
+      <div className="d-grid gap-2 ">
+          <h1 class= "tituloReg">CANCHEROS</h1>
+
+        </div>
       <Form onSubmit={handleSubmit}>
         <Form.Group size="lg" controlId="nombre">
           <Form.Label>Nombre</Form.Label>
@@ -81,6 +86,8 @@ function Registrarse() {
           Registrarse
         </Button>
         <Button onClick={navigateToLogin} className="btn btn-light form">Ingresar</Button>
+        <Button onClick={navigateToLogin} className="btn btn-light form">SoyDueño</Button>
+        
       </Form>
     </div>
   );

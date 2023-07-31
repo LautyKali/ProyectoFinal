@@ -8,7 +8,12 @@ import axios from 'axios';
 import { useFetcher, useNavigate } from 'react-router-dom';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
-import Container from 'react-bootstrap/Container'
+import Container from 'react-bootstrap/Container';
+import Navbar from 'react-bootstrap/Navbar';
+
+
+
+
 
 function Lugar() {
     const [lugares, setLugares] = useState([]);
@@ -32,10 +37,13 @@ function Lugar() {
     if(lugares.length === 0) return (<div></div>);
     document.body.classList = ["Lugar"];
     return (
+       
  
         <Container>
         <Row>             
                 {
+                   
+              
                     lugares.map((element) =>
                     (
                     <Col sm={6}>

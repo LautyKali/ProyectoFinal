@@ -46,13 +46,13 @@ function Canchas() {
                     <Card>
                         <Card.Header><img className="card-img-top" src={element.Foto} alt="Card image cap"></img></Card.Header>
                         <Card.Body>
-                            <Card.Title><h1>{element.Nombre}</h1></Card.Title>
+                            <Card.Title><h1>{element.Nombre} </h1></Card.Title>
                             <Card.Text>
-                                {element.Deporte}<br/>
+                                <p>Deporte: {element.Deporte}<br/></p>
                                  {element.EnReparacion}<br/>
-                                 {element.CantPersonas}<br/><br/>
-                                 {element.TipoPiso}<br/><br/>
-                                 {element.Precio}
+                                 <p>Cantidad de personas: {element.CantPersonas}</p><br/><br/>
+                                 <p>Tipo de cancha : {element.TipoPiso} </p><br/><br/>
+                                 <p>Precio: {element.Precio}</p>
                                 
                             </Card.Text>
                         </Card.Body>

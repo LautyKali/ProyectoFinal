@@ -5,7 +5,7 @@ import { Navigate } from "react-router-dom";
 import {Link} from 'react-router-dom'
 import { useNavigate } from 'react-router-dom';
 import React, { Component }  from 'react';
-
+import LogoCancheros from '../../Img/LogoCancheros.jpg'
 function comenzar() {
     const navigate = useNavigate();
     const navigateToRegister = () => { 
@@ -16,8 +16,9 @@ function comenzar() {
 
     return (
         <div className="d-grid gap-2 ">
-          <h2>TU CANCHA EN SEGUNDOS</h2>
-          <Button onClick={navigateToRegister} variant="primary" size="lg">
+          <h1 class= "tituloHome">CANCHEROS</h1>
+          <h5>Tu cancha en segundos.</h5>
+          <Button onClick={navigateToRegister} type = "button" class="block" variant="primary" size="lg">
             Comenzar⮕
           </Button>
         </div>
