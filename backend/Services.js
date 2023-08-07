@@ -24,8 +24,7 @@ export class Usuario {
     }
 
     static Register = async (Usuario) => {
-        const { nombre, telefono, mail, contrasenna, foto } = Usuario
-        let fkRol = 3; // Rol por default
+        const { nombre, telefono, mail, contrasenna, foto, fkRol } = Usuario
         let pool = await sql.connect(config)
         let result = await pool.request()
             .input('Nombre', sql.NVarChar(4000), nombre)
@@ -195,7 +194,6 @@ export class Lugar {
         console.log("Estoy en: crear lugar");
         const { Nombre, Ubicacion, Zona, Foto, fkDueño } = lugar
         let pool = await sql.connect(config)
-
         let result = await pool.request()
             .input('Nombre', sql.NVarChar(4000), Nombre)
             .input('Ubicacion', sql.NChar(4000), Ubicacion)
@@ -222,7 +220,6 @@ export class Lugar {
 
 
 }
-
 
 
 
