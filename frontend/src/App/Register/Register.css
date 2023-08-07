@@ -10,31 +10,14 @@ body {
     background-repeat: no-repeat;
     background-size: cover;
 }
-  label{
-    color: aliceblue;
+  input{
+    color: black;
+    width: 50%;
+    padding: 5px;
+    text-align: center;
+    justify-content: center;
   }
 
-  .button, button, input[type=button], input[type=reset], input[type=submit] {
-    display: inline-block;
-    height: 38px;
-    padding: 0 30px;
-    color: #f7f7f7;
-    background-color: rgb(96, 0, 250);
-    text-align: center;
-    font-size: 11px;
-    font-weight: 600;
-    line-height: 38px;
-    letter-spacing: .1rem;
-    text-transform: uppercase;
-    text-decoration: none;
-    white-space: nowrap;
-    border-radius: 4px;
-    border: 1px solid #bbb;
-    cursor: pointer;
-    box-sizing: border-box;
-    margin: 1%;
-  }
-  
   a{
     color: cyan;
   }
@@ -43,4 +26,39 @@ body {
     font-weight: bold;
   }
 
-  
+  .block{
+      display: block;
+      width: 10%;
+      height: auto;
+      border: none;
+      background-color: #35f006;
+      padding: 5px;
+      font-size: 15px;
+      cursor: pointer;
+      text-align: center;
+      margin-left: 45%;
+      color: #f7f7f7;
+  }
+
+  .botonGen{
+    display: inline-block;
+      height: 38px;
+      padding: 0 30px;
+      color: #f7f7f7;
+      background-color: rgb(96, 0, 250);
+      text-align: center;
+      font-size: 11px;
+      font-weight: 600;
+      line-height: 38px;
+      letter-spacing: .1rem;
+      text-transform: uppercase;
+      text-decoration: none;
+      white-space: nowrap;
+      border-radius: 4px;
+      border: 1px solid #bbb;
+      cursor: pointer;
+      box-sizing: border-box;
+      margin: 1%;
+  }
+
+ 

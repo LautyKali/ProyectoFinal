@@ -8,8 +8,8 @@ import React, { Component }  from 'react';
 import LogoCancheros from '../../Img/LogoCancheros.jpg'
 function comenzar() {
     const navigate = useNavigate();
-    const navigateToRegister = () => { 
-        navigate('/Register');
+    const navigateToLogin = () => { 
+        navigate('/Login');
     }
 
     document.body.classList = ["home"];
@@ -18,7 +18,7 @@ function comenzar() {
         <div className="d-grid gap-2 ">
           <h1 class= "tituloHome">CANCHEROS</h1>
           <h5>Tu cancha en segundos.</h5>
-          <Button onClick={navigateToRegister} type = "button" class="block" variant="primary" size="lg">
+          <Button onClick={navigateToLogin} type = "button" className="block" variant="primary" size="lg">
             Comenzar⮕
           </Button>
         </div>

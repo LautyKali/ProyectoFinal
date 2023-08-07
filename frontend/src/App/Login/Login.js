@@ -10,6 +10,10 @@ import { Link } from "react-router-dom";
     const [mail, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const Navigate = useNavigate('');
+    const navigate = useNavigate();
+    const navigateToRegister = () => { 
+        navigate('/Register');
+    }
 
     function validateForm() {
         return mail.length > 0 && password.length > 0;
@@ -55,12 +59,11 @@ import { Link } from "react-router-dom";
                 <Form.Group size="lg">
                 <Link to="olvideContra" style={{fontSize: "80%"}}  >¿Olvidaste tu contraseña?</Link>
                 </Form.Group>
-                <Button onClick={()=>Navigate(-1)}>Registrarse
+                <Button color="blue" block size="lg" type="submit" className="botonGen"  disabled={!validateForm()}>
+                    Iniciar sesion </Button>
+                    </Form>
+            <Button onClick={navigateToRegister} className="block">Crear cuenta
                 </Button>
-                
-                <Button color="blue" block size="lg" type="submit" disabled={!validateForm()}>
-                    Login </Button>
-            </Form>
         </div> 
     );
 }

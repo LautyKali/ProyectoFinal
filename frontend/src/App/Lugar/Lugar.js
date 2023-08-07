@@ -92,5 +92,4 @@ function Lugar() {
         </div>
     );
 }
-
 export default Lugar;

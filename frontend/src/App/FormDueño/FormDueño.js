@@ -7,25 +7,26 @@ import { useNavigate } from 'react-router-dom'
 import axios from 'axios';
 import React, { Component } from 'react';
 
-function Registrarse() {
-  const [mail, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [nombre,setNombre] = useState("");
-  const [telefono,setTelefono] = useState("");
-  const [fkRol,setFkRol] = useState(3);
+function formDueño() {
+
   const Navigate = useNavigate('');
   const navigate = useNavigate();
+  const [ubicacion, setUbicacion] = useState("");
+  const [zona, setZona] = useState("");
+  const [nombre,setNombre] = useState("");
+  const [fotos,setFotos] = useState("");
+  const [fkDueño,setFkDueño] = useState(3);
     const navigateToLogin = () => { 
-        navigate('/Login');
+        navigate('/Home');
     }
   const handleSubmit = (event) => {
     event.preventDefault();
-    let usuario = {
+    let lugar = {
       nombre : nombre,
-      contrasenna: password,
-      mail : mail,
-      telefono : telefono,
-      fkRol : fkRol
+      ubicacion: ubicacion,
+      zona: mail,
+      fotos: fotos,
+      fkDueño : fkDueño
   }
     axios.post('http://localhost:5001/registro', usuario)
       .then(res => {
@@ -45,8 +46,7 @@ function Registrarse() {
     <div 
     className='Register'>
       <div className="d-grid gap-2 ">
-          <h1 class= "tituloReg">CANCHEROS</h1>
-
+          <h1 class= "tituloReg">Unete a nuestro software de canchas!</h1>
         </div>
       <Form onSubmit={handleSubmit}>
         <Form.Group size="lg" controlId="nombre">
@@ -59,37 +59,37 @@ function Registrarse() {
           />
         </Form.Group>
         <Form.Group size="lg" controlId="password">
-          <Form.Label>Contraseña</Form.Label>
+          <Form.Label>Ubicacion</Form.Label>
           <Form.Control
             type="password"
-            value={password}
+            value={ubicacion}
             onChange={(e) => setPassword(e.target.value)}
           />
         </Form.Group>
         <Form.Group size="lg" controlId="email">
-          <Form.Label>Mail</Form.Label>
+          <Form.Label>Zona</Form.Label>
           <Form.Control
             type="email"
-            value={mail}
+            value={zona}
             onChange={(e) => setEmail(e.target.value)}
           />
         </Form.Group>
         <Form.Group size="lg" controlId="telefono">
-          <Form.Label>Telefono</Form.Label>
+          <Form.Label>Fotos</Form.Label>
           <Form.Control
-            type="text"
-            value={telefono}
+            type="file"
+            value={fotos}
             onChange={(e) => setTelefono(e.target.value)}
           />
         </Form.Group>
         <Button size="lg" type="submit" className='botonGen' disabled={!validateForm()}>
-          Registrarse
+          Enviar Formulario ⚽
         </Button>
-        <Button onClick={navigateToLogin} className="block">Cuenta Existente</Button>
+        <Button onClick={navigateToLogin} className="block">Volver</Button>
         
       </Form>
     </div>
   );
 }
 
-export default Registrarse;
+export default formDueño;
