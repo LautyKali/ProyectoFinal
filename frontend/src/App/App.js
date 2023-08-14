@@ -9,6 +9,8 @@ import Register from './Register/Register';
 import React, { Component }  from 'react';
 import Lugar from './Lugar/Lugar';
 import Canchas from './Canchas/Canchas'
+import FormDueño from './FormDueño/FormDueño'
+import CrearCancha from './CrearCancha/CrearCancha'
 
 function App() {
   return (
@@ -17,6 +19,8 @@ function App() {
         <Route path="/" element={<Home/>}></Route>
         <Route path="/Register" element={<Register />}/>
         <Route path="/Login" element={<Login />} />
+        <Route path="/FormDueño" element={<FormDueño />} />
+        <Route path="/CrearCancha" element={<CrearCancha />} />
         <Route path="/Lugar" element={<Lugar/>} />
         <Route path="/Canchas" element={<Canchas/>} />
 

@@ -18,9 +18,7 @@ body {
     justify-content: center;
   }
 
-  a{
-    color: cyan;
-  }
+  
   .tituloReg{
     color: white;
     font-weight: bold;
@@ -61,4 +59,10 @@ body {
       margin: 1%;
   }
 
- 
+  .logoCancherosReg{
+    width: 20%;
+    height: auto;
+    text-align: center;
+    justify-content: center;
+    margin-left: 40%;
+  }

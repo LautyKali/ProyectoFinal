@@ -12,10 +12,12 @@ import Container from 'react-bootstrap/Container';
 import Navbar from 'react-bootstrap/Navbar';
 import Nav from 'react-bootstrap/Nav';
 import Dropdown from 'react-bootstrap/Dropdown';
+import NavLink from "react-bootstrap/esm/NavLink";
+import LogoCancheros from '../../Logo.png'
 
 function Lugar() {
     const [lugares, setLugares] = useState([]);
-    const [ubicacionSeleccionada, setUbicacionSeleccionada] = useState('');
+    const [zonaSeleccionada, setZonaSeleccionada] = useState('');
     const Navigate = useNavigate('');
 
     useEffect(() => {
@@ -30,31 +32,32 @@ function Lugar() {
     const navigateToCanchas = (Id) => {
         Navigate('/Canchas/', { state: { id: Id } });
     }
+    const navigateToHome = () => { 
+        Navigate('/');
+    }
 
-    const handleUbicacionSelect = (ubicacion) => {
-        setUbicacionSeleccionada(ubicacion);
+    const handleZonaSelect = (Zona) => {
+        setZonaSeleccionada(Zona);
     }
 
 
     const lugaresFiltrados = lugares.filter((lugar) =>
-        ubicacionSeleccionada === '' || lugar.Ubicacion === ubicacionSeleccionada
+        zonaSeleccionada === '' || lugar.Zona === zonaSeleccionada
     );
 
     if (lugares.length === 0) return (<div></div>);
     document.body.classList = ["Lugar"];
 
     return (
-        <div>
+        <div className="Fondo">
             <Navbar bg="light" expand="lg">
-                <Navbar.Brand href="#home">Nombre de tu App</Navbar.Brand>
-
-
+                <Navbar.Brand onClick={navigateToHome}><img className="LogoLugar" src={LogoCancheros}></img></Navbar.Brand>
                 <Nav className="mr-auto">
-                        <Nav.Link href="#home">Inicio </Nav.Link>
-                        <Nav.Link href="#link">Otra página</Nav.Link>
+                        <Nav.Link href="/FormDueño">Unirse como dueño </Nav.Link>
+                        <Nav.Link href="/CrearCancha">Crear cancha</Nav.Link>
                     </Nav>
                 <Navbar.Collapse id="basic-navbar-nav">
-                    
+
                 </Navbar.Collapse>
             </Navbar>
 
@@ -62,12 +65,13 @@ function Lugar() {
 
                 <Dropdown>
                     <Dropdown.Toggle variant="primary" id="dropdown-ubicacion">
-                        Filtrar por Zona: {ubicacionSeleccionada || 'Todas'}
+                        Filtrar por Zona: {zonaSeleccionada || 'Todas'}
                     </Dropdown.Toggle>
                     <Dropdown.Menu>
-                        <Dropdown.Item onClick={() => handleUbicacionSelect('')}>Todas</Dropdown.Item>
-                        <Dropdown.Item onClick={() => handleUbicacionSelect('Caballito')}>Caballito</Dropdown.Item>
-                        <Dropdown.Item onClick={() => handleUbicacionSelect('Flores')}>Flores</Dropdown.Item>
+                        <Dropdown.Item onClick={() => handleZonaSelect('')}>Todas</Dropdown.Item>
+                        <Dropdown.Item onClick={() => handleZonaSelect('Caballito')}>Caballito</Dropdown.Item>
+                        <Dropdown.Item onClick={() => handleZonaSelect('Flores')}>Flores</Dropdown.Item>
+                        
                     </Dropdown.Menu>
                 </Dropdown>
 

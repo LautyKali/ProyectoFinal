@@ -5,6 +5,7 @@ import "./Login.css";
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { Link } from "react-router-dom";
+import LogoCancheros from '../../Logo.png'
 
  function Login() {
     const [mail, setEmail] = useState("");
@@ -37,6 +38,7 @@ import { Link } from "react-router-dom";
     document.body.classList = ["login"];
     return (
         <div className="Login">
+            <img className="logoCancheros" src={LogoCancheros}></img>
             <h1>CANCHEROS</h1>
             <Form onSubmit={handleSubmit}> 
                 <Form.Group size="lg" controlId="email">
@@ -57,7 +59,7 @@ import { Link } from "react-router-dom";
                     />
                 </Form.Group>
                 <Form.Group size="lg">
-                <Link to="olvideContra" style={{fontSize: "80%"}}  >¿Olvidaste tu contraseña?</Link>
+                <Link to="olvideContra" >¿Olvidaste tu contraseña?</Link>
                 </Form.Group>
                 <Button color="blue" block size="lg" type="submit" className="botonGen"  disabled={!validateForm()}>
                     Iniciar sesion </Button>

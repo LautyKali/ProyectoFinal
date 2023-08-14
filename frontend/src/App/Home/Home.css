@@ -5,16 +5,37 @@
 
   h5{
     color:black;
+    font-size: 3rem;
+  }
+  h1{
+    font-size: 8rem;
   }
 
-  .block{
+  button.botonHome{
       display: block;
-      width: 100%;
+      height: auto;
       border: none;
-      background-color: #04AA6D;
-      padding: 14px 28px;
-      font-size: 16px;
+      width: 20%;
+      background-color: #0aca84;
+      font-size: xx-large;
+      padding: 2;
+      margin-top: 2%;
+      margin-left: 40%;
       cursor: pointer;
       text-align: center;
+      justify-content: center;
     
+  }
+  button.botonHome:hover{
+    color: black;
+    background-color: #088d5c;
+  
+}
+
+ .logoCancherosHome{
+    width: 20%;
+    height: auto;
+    text-align: center;
+    justify-content: center;
+    margin-left: 40%;
   }

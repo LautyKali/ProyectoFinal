@@ -6,27 +6,28 @@ import { Link } from 'react-router-dom'
 import { useNavigate } from 'react-router-dom'
 import axios from 'axios';
 import React, { Component } from 'react';
+import LogoCancheros from '../../Logo.png'
 
 function Registrarse() {
   const [mail, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [nombre,setNombre] = useState("");
-  const [telefono,setTelefono] = useState("");
-  const [fkRol,setFkRol] = useState(3);
+  const [nombre, setNombre] = useState("");
+  const [telefono, setTelefono] = useState("");
+  const [fkRol, setFkRol] = useState(3);
   const Navigate = useNavigate('');
   const navigate = useNavigate();
-    const navigateToLogin = () => { 
-        navigate('/Login');
-    }
+  const navigateToLogin = () => {
+    navigate('/Login');
+  }
   const handleSubmit = (event) => {
     event.preventDefault();
     let usuario = {
-      nombre : nombre,
+      nombre: nombre,
       contrasenna: password,
-      mail : mail,
-      telefono : telefono,
-      fkRol : fkRol
-  }
+      mail: mail,
+      telefono: telefono,
+      fkRol: fkRol
+    }
     axios.post('http://localhost:5001/registro', usuario)
       .then(res => {
         Navigate('/login')
@@ -42,12 +43,13 @@ function Registrarse() {
 
   document.body.classList = ["register"];
   return (
-    <div 
-    className='Register'>
+    <div
+      className='Register'>
       <div className="d-grid gap-2 ">
-          <h1 class= "tituloReg">CANCHEROS</h1>
+        <img className="logoCancherosReg" src={LogoCancheros}></img>
+        <h1 class="tituloReg">CANCHEROS</h1>
 
-        </div>
+      </div>
       <Form onSubmit={handleSubmit}>
         <Form.Group size="lg" controlId="nombre">
           <Form.Label>Nombre</Form.Label>
@@ -86,7 +88,7 @@ function Registrarse() {
           Registrarse
         </Button>
         <Button onClick={navigateToLogin} className="block">Cuenta Existente</Button>
-        
+
       </Form>
     </div>
   );

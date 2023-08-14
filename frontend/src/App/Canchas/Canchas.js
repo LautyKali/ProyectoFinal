@@ -9,6 +9,8 @@ import { useFetcher, useNavigate } from 'react-router-dom';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Container from 'react-bootstrap/Container';
+import Navbar from 'react-bootstrap/Navbar';
+import Nav from 'react-bootstrap/Nav';
 
 
 
@@ -36,6 +38,18 @@ function Canchas() {
     if(cancha.length === 0) return (<div></div>);
     document.body.classList = ["Canchas"];
     return (
+        <div>
+        <Navbar bg="light" expand="lg">
+        <Navbar.Brand href="#home">Nombre de tu App</Navbar.Brand>
+        <Nav className="mr-auto">
+                <Nav.Link href="#home">Inicio </Nav.Link>
+                <Nav.Link href="#link">Otra página</Nav.Link>
+            </Nav>
+        <Navbar.Collapse id="basic-navbar-nav">
+
+        </Navbar.Collapse>
+    </Navbar>
+    
         <Container>
         <Row>
                 {
@@ -63,6 +77,7 @@ function Canchas() {
                 }
                   </Row>
                   </Container>
+                  </div>
 
 
     );

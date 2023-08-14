@@ -6,6 +6,7 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   background-color: transparent !important;
+  margin-top: 0 !important;
 }
 
 code {
@@ -23,7 +24,6 @@ body.home::after {
   text-align: center;
   margin-top: 15%;
   background-image:url("https://www.diariomovil.info/wp-content/uploads/2015/05/Ni%C3%B1os-jugando-al-futbol.jpg");
-  
   background-repeat: no-repeat;
   background-size: cover;
 }
@@ -54,3 +54,31 @@ body.register::after {
   background-size: cover;
 }
 
+
+body.FormDueño::after{
+  margin-bottom: 0%;
+  padding: 0;
+  font-family: sans-serif;
+  min-height: 100%;
+  text-align: center;
+  margin-top: 15%;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-color: #7854C4;
+  margin-top: 0 !important;
+}
+
+
+
+body.CrearCancha::after{
+  margin-bottom: 0%;
+  padding: 0;
+  font-family: sans-serif;
+  min-height: 100%;
+  text-align: center;
+  margin-top: 15%;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-color: #7854C4;
+  margin-top: 0 !important;
+}

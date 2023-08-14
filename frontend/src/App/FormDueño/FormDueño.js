@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
-import './Register.css';
 import { Link } from 'react-router-dom'
 import { useNavigate } from 'react-router-dom'
 import axios from 'axios';
@@ -15,22 +14,19 @@ function formDueño() {
   const [zona, setZona] = useState("");
   const [nombre,setNombre] = useState("");
   const [fotos,setFotos] = useState("");
-  const [fkDueño,setFkDueño] = useState(3);
-    const navigateToLogin = () => { 
-        navigate('/Home');
-    }
+  const [fkDueño,setFkDueño] = useState(7);
   const handleSubmit = (event) => {
     event.preventDefault();
     let lugar = {
       nombre : nombre,
       ubicacion: ubicacion,
-      zona: mail,
+      zona: zona,
       fotos: fotos,
       fkDueño : fkDueño
   }
-    axios.post('http://localhost:5001/registro', usuario)
+    axios.post('http://localhost:5001/lugar/post', lugar)
       .then(res => {
-        Navigate('/login')
+        Navigate('/lugar')
       })
       .catch(e => {
         console.log(e.response.status, e.data);
@@ -38,10 +34,10 @@ function formDueño() {
   };
 
   function validateForm() {
-    return mail.length > 0 && password.length > 0;
+    return nombre.length > 0 && ubicacion.length > 0 && zona.length > 0 && fotos.length > 0 ;
   }
 
-  document.body.classList = ["register"];
+  document.body.classList = ["FormDueño"];
   return (
     <div 
     className='Register'>
@@ -58,34 +54,33 @@ function formDueño() {
             onChange={(e) => setNombre(e.target.value)}
           />
         </Form.Group>
-        <Form.Group size="lg" controlId="password">
+        <Form.Group size="lg" controlId="ubicacion">
           <Form.Label>Ubicacion</Form.Label>
           <Form.Control
-            type="password"
+            type="text"
             value={ubicacion}
-            onChange={(e) => setPassword(e.target.value)}
+            onChange={(e) => setUbicacion(e.target.value)}
           />
         </Form.Group>
-        <Form.Group size="lg" controlId="email">
+        <Form.Group size="lg" controlId="zona">
           <Form.Label>Zona</Form.Label>
           <Form.Control
-            type="email"
+            type="text"
             value={zona}
-            onChange={(e) => setEmail(e.target.value)}
+            onChange={(e) => setZona(e.target.value)}
           />
         </Form.Group>
-        <Form.Group size="lg" controlId="telefono">
+        <Form.Group size="lg" controlId="fotos">
           <Form.Label>Fotos</Form.Label>
           <Form.Control
             type="file"
             value={fotos}
-            onChange={(e) => setTelefono(e.target.value)}
+            onChange={(e) => setFotos(e.target.value)}
           />
         </Form.Group>
         <Button size="lg" type="submit" className='botonGen' disabled={!validateForm()}>
           Enviar Formulario ⚽
         </Button>
-        <Button onClick={navigateToLogin} className="block">Volver</Button>
         
       </Form>
     </div>
