@@ -190,15 +190,15 @@ export class Lugar {
         return returnEntity
     }
 
-    static insert = async () => {
+    static insert = async (lugar) => {
         console.log("Estoy en: crear lugar");
-        const { Nombre, Ubicacion, Zona, Foto, fkDueño } = lugar
+        const { nombre, ubicacion, zona, fotos, fkDueño } = lugar
         let pool = await sql.connect(config)
         let result = await pool.request()
-            .input('Nombre', sql.NVarChar(4000), Nombre)
-            .input('Ubicacion', sql.NChar(4000), Ubicacion)
-            .input('Zona', sql.NChar(4000), Zona)
-            .input('Foto', sql.NChar(4000), Foto)
+            .input('Nombre', sql.NVarChar(4000), nombre)
+            .input('Ubicacion', sql.NChar(4000), ubicacion)
+            .input('Zona', sql.NChar(4000), zona)
+            .input('Foto', sql.NChar(4000), fotos)
             .input('fkDueño', sql.Int, fkDueño)
             .query('INSERT INTO Lugar (Nombre, Ubicacion, Zona, Foto, fkDueño) VALUES (@Nombre, @Ubicacion, @Zona, @Foto, @fkDueño)')
     }
