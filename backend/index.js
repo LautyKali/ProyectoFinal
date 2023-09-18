@@ -66,6 +66,12 @@ app.get('/usuario', async(req,res)=>{
     res.status(200).json(usuario)
 })
 
+app.get('/usuario:id', async(req,res)=>{
+    const usuario = await Usuario.getUsuarioById(req.params.id);
+    console.log(usuario)
+    res.status(200).json(usuario)
+})
+
 app.use(express.json())
 
 //funca

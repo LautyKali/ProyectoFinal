@@ -5,6 +5,8 @@ import { Link } from 'react-router-dom'
 import { useNavigate } from 'react-router-dom'
 import axios from 'axios';
 import React, { Component } from 'react';
+import usuarioContext from '../../Context/context';
+import { useContext } from 'react';
 
 function formDueño() {
 
@@ -14,7 +16,8 @@ function formDueño() {
   const [zona, setZona] = useState("");
   const [nombre,setNombre] = useState("");
   const [fotos,setFotos] = useState("");
-  const [fkDueño,setFkDueño] = useState(7);
+  const [fkDueño,setFkDueño] = useState();
+  const context = useContext(usuarioContext);
   const handleSubmit = (event) => {
     event.preventDefault();
     let lugar = {
@@ -22,7 +25,7 @@ function formDueño() {
       ubicacion: ubicacion,
       zona: zona,
       fotos: fotos,
-      fkDueño : fkDueño
+      fkDueño : context.usuarioContext.Id
   }
     axios.post('http://localhost:5001/lugar/post', lugar)
       .then(res => {

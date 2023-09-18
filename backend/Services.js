@@ -92,7 +92,22 @@ export class Usuario {
         }
         return returnEntity
     }
+    static getUsuarioById = async (id) => {
+        let returnEntity = null;
+        console.log("Estoy en: getUsuario");
+        try {
+            let pool = await sql.connect(config)
+            let result = await pool.request()
+                .input('pId', sql.Int(), Id)
+                .query("SELECT * FROM Usuario WHERE Usuario.Id = @pId ");
+            returnEntity = result.recordsets[0];
+        } catch (error) {
+            console.log(error);
+        }
+        return returnEntity
+    }
 }
+
 export class Cancha {
 
     static getAllById = async (Id) => {

@@ -11,9 +11,13 @@ import Lugar from './Lugar/Lugar';
 import Canchas from './Canchas/Canchas'
 import FormDueño from './FormDueño/FormDueño'
 import CrearCancha from './CrearCancha/CrearCancha'
+import usuarioContext from '../Context/context';
 
-function App() {
+const App = () => {
+
+  const [usuario,setUsuarioContext] = useState({});
   return (
+    <usuarioContext.Provider value={{usuario,setUsuarioContext}}>
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Home/>}></Route>
@@ -23,9 +27,9 @@ function App() {
         <Route path="/CrearCancha" element={<CrearCancha />} />
         <Route path="/Lugar" element={<Lugar/>} />
         <Route path="/Canchas" element={<Canchas/>} />
-
       </Routes>
     </BrowserRouter>
+    </usuarioContext.Provider>
   );
 }
 

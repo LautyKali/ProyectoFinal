@@ -3,44 +3,48 @@ import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import "./Login.css";
 import axios from 'axios';
+import { useContext, useEffect } from "react";
 import { useNavigate } from 'react-router-dom';
 import { Link } from "react-router-dom";
 import LogoCancheros from '../../Logo.png'
+import usuarioContext from "../../Context/context";
 
- function Login() {
+function Login() {
     const [mail, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const Navigate = useNavigate('');
     const navigate = useNavigate();
-    const navigateToRegister = () => { 
+    const context = useContext(usuarioContext);
+    const navigateToRegister = () => {
         navigate('/Register');
     }
 
     function validateForm() {
         return mail.length > 0 && password.length > 0;
     }
-    
+
     function handleSubmit(event) {
         event.preventDefault();
         let usuario = {
-           mail : mail,
-           contrasenna : password
+            mail: mail,
+            contrasenna: password
         }
         axios.post('http://localhost:5001/login', usuario)
-        .then(res =>{
-            Navigate('/Lugar')
-            console.log(res)
-        }).catch(e => {
-            alert("Mail o contraseña incorrectos")
-            console.log(e.response.status, e.data, usuario)
-        })
+            .then(res => {
+                context.setUsuarioContext(res.data.usuario)
+                Navigate('/Lugar')
+                console.log(res)
+            }).catch(e => {
+                alert("Mail o contraseña incorrectos")
+                console.log(e.response.status, e.data, usuario)
+            })
     }
     document.body.classList = ["login"];
     return (
         <div className="Login">
             <img className="logoCancheros" src={LogoCancheros}></img>
             <h1>CANCHEROS</h1>
-            <Form onSubmit={handleSubmit}> 
+            <Form onSubmit={handleSubmit}>
                 <Form.Group size="lg" controlId="email">
                     <Form.Label>Email</Form.Label>
                     <Form.Control
@@ -59,14 +63,14 @@ import LogoCancheros from '../../Logo.png'
                     />
                 </Form.Group>
                 <Form.Group size="lg">
-                <Link to="olvideContra" >¿Olvidaste tu contraseña?</Link>
+                    <Link to="olvideContra" >¿Olvidaste tu contraseña?</Link>
                 </Form.Group>
-                <Button color="blue" block size="lg" type="submit" className="botonGen"  disabled={!validateForm()}>
+                <Button color="blue" block size="lg" type="submit" className="botonGen" disabled={!validateForm()}>
                     Iniciar sesion </Button>
-                    </Form>
+            </Form>
             <Button onClick={navigateToRegister} className="block">Crear cuenta
-                </Button>
-        </div> 
+            </Button>
+        </div>
     );
 }
 export default Login;
