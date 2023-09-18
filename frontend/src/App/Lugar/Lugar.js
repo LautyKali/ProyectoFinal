@@ -1,11 +1,11 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import React from 'react';
 import Card from 'react-bootstrap/Card';
 import Button from "react-bootstrap/Button";
 import "./Lugar.css";
 import { Navigate } from "react-router-dom";
 import axios from 'axios';
-import { useFetcher, useNavigate } from 'react-router-dom';
+import { useFetcher, useNavigate} from 'react-router-dom';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Container from 'react-bootstrap/Container';
@@ -14,14 +14,17 @@ import Nav from 'react-bootstrap/Nav';
 import Dropdown from 'react-bootstrap/Dropdown';
 import NavLink from "react-bootstrap/esm/NavLink";
 import LogoCancheros from '../../Logo.png'
+import usuarioContext from "../../Context/context";
 
 function Lugar() {
+    const context = useContext(usuarioContext)
     const [lugares, setLugares] = useState([]);
     const [zonaSeleccionada, setZonaSeleccionada] = useState('');
     const Navigate = useNavigate('');
 
     useEffect(() => {
         console.log("LMAO");
+        console.log("ROL:" , context.usuario.fkRol)
         axios.get("http://localhost:5001/lugar")
             .then(res => {
                 console.log("AXIOSRES", res)
@@ -47,13 +50,57 @@ function Lugar() {
 
     if (lugares.length === 0) return (<div></div>);
     document.body.classList = ["Lugar"];
+    return context.usuario.fkRol !== 2 ? (
+        <div className="Fondo">
+        <Navbar bg="light" expand="lg">
+            <Navbar.Brand onClick={navigateToHome}><img className="LogoLugar" src={LogoCancheros}></img></Navbar.Brand>
+            <Nav className="mr-auto">
+                    <Nav.Link onClick={() => Navigate("/FormDueño")}>Unirse como dueño </Nav.Link>
+                </Nav>
+            <Navbar.Collapse id="basic-navbar-nav">
 
-    return (
+            </Navbar.Collapse>
+        </Navbar>
+
+        <Container>
+
+            <Dropdown>
+                <Dropdown.Toggle variant="primary" id="dropdown-ubicacion">
+                    Filtrar por Zona: {zonaSeleccionada || 'Todas'}
+                </Dropdown.Toggle>
+                <Dropdown.Menu>
+                    <Dropdown.Item onClick={() => handleZonaSelect('')}>Todas</Dropdown.Item>
+                    <Dropdown.Item onClick={() => handleZonaSelect('Caballito')}>Caballito</Dropdown.Item>
+                    <Dropdown.Item onClick={() => handleZonaSelect('Flores')}>Flores</Dropdown.Item>
+                    
+                </Dropdown.Menu>
+            </Dropdown>
+
+            <Row>
+                {lugaresFiltrados.map((element) => (
+                    <Col sm={6}>
+                        <Card>
+                            <Card.Header><img className="card-img-top" src={element.Foto} alt="Card image cap"></img></Card.Header>
+                            <Card.Body>
+                                <Card.Title><h1>{element.Nombre}</h1></Card.Title>
+                                <Card.Text>
+                                    {element.Ubicacion}<br /><br />
+                                    Zona: {element.Zona}
+                                </Card.Text>
+                                <Button onClick={() => navigateToCanchas(element.Id)} variant="primary">Ver más</Button>
+                            </Card.Body>
+                        </Card>
+                    </Col>
+                ))}
+            </Row>
+        </Container>
+    </div>
+    ) : 
+   (
         <div className="Fondo">
             <Navbar bg="light" expand="lg">
                 <Navbar.Brand onClick={navigateToHome}><img className="LogoLugar" src={LogoCancheros}></img></Navbar.Brand>
                 <Nav className="mr-auto">
-                        <Nav.Link href="/FormDueño">Unirse como dueño </Nav.Link>
                         <Nav.Link href="/CrearCancha">Crear cancha</Nav.Link>
                     </Nav>
                 <Navbar.Collapse id="basic-navbar-nav">

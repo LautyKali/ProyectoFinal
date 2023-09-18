@@ -75,7 +75,7 @@ function CrearCancha() {
   };
 
   function validateForm() {
-    return nombre.length > 0 && foto.length > 0 && deporte.length > 0 && enReparacion.length > 0 && cantPersonas.length > 0 && tipoPiso.length > 0 && precio != null;
+    return nombre.length > 0 && foto.length > 0 && deporte.length > 0 && enReparacion.length > 0 && cantPersonas.length > 0 && tipoPiso.length > 0 && precio >0;
   }
 
   document.body.classList = ["CrearCancha"];

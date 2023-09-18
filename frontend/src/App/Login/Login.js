@@ -31,7 +31,8 @@ function Login() {
         }
         axios.post('http://localhost:5001/login', usuario)
             .then(res => {
-                context.setUsuarioContext(res.data.usuario)
+                console.log("DATA",res)
+                context.setUsuarioContext(res.data.usuario[0])
                 Navigate('/Lugar')
                 console.log(res)
             }).catch(e => {

@@ -15,7 +15,7 @@ import usuarioContext from '../Context/context';
 
 const App = () => {
 
-  const [usuario,setUsuarioContext] = useState({});
+  const [usuario,setUsuarioContext] = useState([]);
   return (
     <usuarioContext.Provider value={{usuario,setUsuarioContext}}>
     <BrowserRouter>

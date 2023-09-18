@@ -16,17 +16,20 @@ function formDueño() {
   const [zona, setZona] = useState("");
   const [nombre,setNombre] = useState("");
   const [fotos,setFotos] = useState("");
-  const [fkDueño,setFkDueño] = useState();
+  const [idDueño,setFkDueño] = useState();
   const context = useContext(usuarioContext);
   const handleSubmit = (event) => {
+    console.log(context.usuario)
+    setFkDueño(context.usuario.Id)
     event.preventDefault();
     let lugar = {
       nombre : nombre,
       ubicacion: ubicacion,
       zona: zona,
       fotos: fotos,
-      fkDueño : context.usuarioContext.Id
+      fkDueño : context.usuario.Id
   }
+    console.log(lugar)
     axios.post('http://localhost:5001/lugar/post', lugar)
       .then(res => {
         Navigate('/lugar')
