@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import { Link } from 'react-router-dom'
@@ -14,16 +14,17 @@ function CrearCancha() {
   const Navigate = useNavigate('');
   const navigate = useNavigate();
   const [deporte, setDeporte] = useState("");
-  const [enReparacion, setEnReparacion] = useState("");
+  const [enReparacion, setEnReparacion] = useState();
   const [nombre, setNombre] = useState("");
   const [foto, setfoto] = useState("");
   const [cantPersonas, setCantPersonas] = useState("");
   const [fkLugar, setFkLugar] = useState(2);
-  const [tipoPiso, setTipoPiso] = useState({ opcion: "", another: "another" });
+  //const [tipoPiso, setTipoPiso] = useState({ opcion: "", another: "another" });
   const [precio, setPrecio] = useState({ estado: "", another: "another" });
   const [opcion, setOpcion] = useState('');
   const [estado, setEstado] = useState(true);
   const [pisoSeleccionado, setPisoSeleccionado] = useState('');
+  const [formValido, setFormValido] = useState(false);
 
   //let item;
   //let i;
@@ -34,22 +35,19 @@ function CrearCancha() {
     setPisoSeleccionado(Piso);
   }
 
-  const handleChange = e => {
+  /*const handleChange = e => {
     e.persist();
     console.log(e.target.value);
     setTipoPiso(prevState => ({
       ...prevState,
       opcion: e.target.value
     }));
-  };
+  };*/
 
   const handleChangeToF = e => {
     e.persist();
     console.log(e.target.value);
-    setEnReparacion(prevState => ({
-      ...prevState,
-      estado: e.target.value
-    }));
+    setEnReparacion(e.target.value);
   };
 
   const handleSubmit = (event) => {
@@ -60,10 +58,9 @@ function CrearCancha() {
       deporte: deporte,
       enReparacion: enReparacion,
       cantPersonas: cantPersonas,
-      tipoPiso: tipoPiso,
+      tipoPiso: pisoSeleccionado,
       precio: precio,
       fkLugar: fkLugar,
-
     }
     axios.post('http://localhost:5001/cancha/post', cancha)
       .then(res => {
@@ -73,17 +70,16 @@ function CrearCancha() {
         console.log(e.response.status, e.data);
       });
   };
-
-  function validateForm() {
-    return nombre.length > 0 && foto.length > 0 && deporte.length > 0 && enReparacion.length > 0 && cantPersonas.length > 0 && tipoPiso.length > 0 && precio >0;
-  }
+  useEffect(() => {
+    setFormValido(nombre.length > 0 && foto.length > 0 && deporte.length > 0 && enReparacion && cantPersonas.length > 0 && pisoSeleccionado.length > 0 && precio > 0);
+  }, [nombre, foto, deporte, enReparacion, cantPersonas, pisoSeleccionado, precio]);
 
   document.body.classList = ["CrearCancha"];
   return (
     <div
       className='Register'>
       <div className="d-grid gap-2 ">
-        <h1 class="tituloReg">Crea una cancha para "nombre del lugar"</h1>
+        <h1 className="tituloReg">Crea una cancha para "nombre del lugar" {enReparacion}</h1>
       </div>
       <Container>
         <Form onSubmit={handleSubmit}>
@@ -92,7 +88,6 @@ function CrearCancha() {
             <Form.Control
               autoFocus
               type="text"
-              value={nombre}
               onChange={(e) => setNombre(e.target.value)}
             />
           </Form.Group>
@@ -109,6 +104,7 @@ function CrearCancha() {
             <Form.Check
               inline
               type="radio"
+              value={true}
               aria-label="radio 1"
               label="Si"
               name="disponible"
@@ -118,6 +114,7 @@ function CrearCancha() {
               inline
               type="radio"
               aria-label="radio 1"
+              value={false}
               name="disponible"
               label="No"
               onChange={handleChangeToF}
@@ -159,7 +156,8 @@ function CrearCancha() {
               onChange={(e) => setPrecio(e.target.value)}
             />
           </Form.Group>
-          <Button size="lg" type="submit" className='botonGen' disabled={!validateForm()}>
+
+          <Button size="lg" type="submit" className='botonGen' disabled={!formValido}>
             Crear cancha
           </Button>
 
