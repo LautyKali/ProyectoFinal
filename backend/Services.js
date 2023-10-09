@@ -117,7 +117,7 @@ export class Cancha {
             let pool = await sql.connect(config)
             let result = await pool.request()
                 .input('pId', sql.Int(), Id)
-                .query("SELECT * FROM Cancha INNER JOIN Lugar L on Cancha.fkLugar = L.Id WHERE L.Id= @pId");
+                .query("SELECT C.Id, C.Nombre, C.Foto, C.Deporte, C.EnReparacion, C.CantPersonas, C.TipoPiso, C.Precio, C.fkLugar FROM Cancha C INNER JOIN Lugar L on C.fkLugar = L.Id WHERE L.Id= @pId");
             // console.log(result.recordset);
             returnEntity = result.recordset;
         } catch (error) {

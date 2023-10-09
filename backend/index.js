@@ -86,7 +86,7 @@ app.post('/cancha/post', async(req,res) =>{
 })
 
 //funca
-app.put('/cancha/put',async(req,res) => {
+app.put('/cancha/put/:id',async(req,res) => {
     let cancha = await Cancha.update(req.body);
     res.status(201).json({message: 'Cancha actualizada'})
     res.status(202).send(cancha);
