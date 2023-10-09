@@ -5,3 +5,18 @@ p{
 .modalText{
     color: black;
 }
+
+div.modal-body{
+    font-weight: bold;
+    color: black;
+}
+
+label.form-label{
+    font-weight: bold;
+    color: black;
+}
+
+label.form-check-label{
+    font-weight: bold;
+    color: black;
+}

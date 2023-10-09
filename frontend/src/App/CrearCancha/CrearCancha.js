@@ -19,10 +19,7 @@ function CrearCancha() {
   const [foto, setfoto] = useState("");
   const [cantPersonas, setCantPersonas] = useState("");
   const [fkLugar, setFkLugar] = useState(2);
-  //const [tipoPiso, setTipoPiso] = useState({ opcion: "", another: "another" });
-  const [precio, setPrecio] = useState({ estado: "", another: "another" });
-  const [opcion, setOpcion] = useState('');
-  const [estado, setEstado] = useState(true);
+  const [precio, setPrecio] = useState({ estado: "", another: "another" });;
   const [pisoSeleccionado, setPisoSeleccionado] = useState('');
   const [formValido, setFormValido] = useState(false);
 

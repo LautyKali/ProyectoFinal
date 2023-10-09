@@ -3,7 +3,7 @@ import React from 'react';
 import Card from 'react-bootstrap/Card';
 import Button from "react-bootstrap/Button";
 import "./Canchas.css";
-import { Navigate, useLocation } from "react-router-dom";
+import { Navigate, useLocation, useParams } from "react-router-dom";
 import axios from 'axios';
 import { useFetcher, useNavigate } from 'react-router-dom';
 import Row from 'react-bootstrap/Row';
@@ -12,43 +12,62 @@ import Container from 'react-bootstrap/Container';
 import Navbar from 'react-bootstrap/Navbar';
 import Nav from 'react-bootstrap/Nav';
 import { Modal } from "react-bootstrap";
-
+import Dropdown from 'react-bootstrap/Dropdown';
+import Form from 'react-bootstrap/Form';
 
 
 function Canchas() {
     const [cancha, setCancha] = useState("");
-    const { state } = useLocation();
-    const { id } = state;
-    const [datos,setDatos] = useState([])
-    console.log("WOAAAAAAA", id);
+    const { id } = useParams();
+    console.log("iddueño", id)
+    const [pisoSeleccionado, setPisoSeleccionado] = useState('');
+    const [datos, setDatos] = useState([])
+    const [canchaIdEditar, setCanchaIdEditar] = useState("");
     const [showModal, setShowModal] = useState(false);
     useEffect(() => {
         console.log("LMAO");
         axios.get("http://localhost:5001/cancha/" + id)
             .then(res => {
-                console.log("AXIOSRES", res)
+                console.log("AXIOSRES asdasd", res)
                 setCancha(
                     res.data
                 );
             })
     }, [])
 
+    const onChangeF = (e) => {
+        setDatos({...datos,[e.target.name]:e.target.value})
+    }
     const handleModalOpen = (e) => {
-        setDatos(e)
+        console.log("MODALOPEN", e);
+        console.log("data id",e.Id)
+        setCanchaIdEditar(e.Id);
         setShowModal(true);
     };
 
     const handleModalClose = () => {
         setShowModal(false);
     };
+    
+  const handlePisoSelect = (Piso) => {
+    setPisoSeleccionado(Piso);
+    setDatos({...datos,["TipoPiso"]:Piso})
+  }
 
-    const submitEdit = ()=>{
-
-        axios.put("http//localhost:5001/cancha/",cancha)
+    const submitEdit = () => {
+        console.log("EL MALPARIDO ID",canchaIdEditar)
+        axios.put(`http://localhost:5001/cancha/put/${canchaIdEditar}`, datos)
 
     }
+    const handleChangeToF = e => {
+    e.persist();
+    onChangeF(e);
+  };
 
     if (cancha.length === 0) return (<div></div>);
+    
+    console.log("PEPE", datos);
+
     document.body.classList = ["Canchas"];
     return (
         <div>
@@ -75,12 +94,12 @@ function Canchas() {
                                     <Card.Body>
                                         <Card.Title><h1>{element.Nombre} </h1><br /></Card.Title>
                                         <Card.Text>
-                                            <p>Deporte: {element.Deporte}<br /></p>
-                                            {element.EnReparacion}<br />
-                                            <p>Cantidad de personas: {element.CantPersonas}</p><br /><br />
-                                            <p>Tipo de cancha : {element.TipoPiso} </p><br /><br />
-                                            <p>Precio: {element.Precio}</p>
-                                    
+                                            <div>Deporte: {element.Deporte}<br /></div>
+                                            <div>Cantidad de personas: {element.CantPersonas}</div><br /><br />
+                                            <div>Tipo de cancha : {element.TipoPiso} </div><br /><br />
+                                            <div>Precio: {element.Precio}</div>
+                                            <div>Disponibilidad: {element.EnReparacion ? "No dispobible" : "Disponible"}</div>
+
                                         </Card.Text>
                                     </Card.Body>
                                     <Button onClick={() => handleModalOpen(element)} className="block">Editar</Button>
@@ -97,20 +116,102 @@ function Canchas() {
                     <Modal.Title className="modalText">Editar informacion </Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
+                    ESTAMOS EDITANDO LA CANCHA {canchaIdEditar}
+                    <Form onSubmit={submitEdit}>
+                    <Form.Group size="lg" controlId="nombre">
+                            <Form.Label>Nombre</Form.Label>
+                            <Form.Control
+                                autoFocus
+                                name="Nombre"
+                                value={datos.Nombre}
+                                type="text"
+                                onChange={(e) => onChangeF(e)}
+                            />
+                        </Form.Group>
+                        <Form.Group size="lg" controlId="deporte">
+                            <Form.Label>Deporte</Form.Label>
+                            <Form.Control
+                                type="text"
+                                name="Deporte"
+                                value={datos.Deporte}
+                                onChange={(e) => onChangeF(e)}
+                            />
+                        </Form.Group>
+                        <Form.Group size="lg" controlId="enReparacion">
+                            <Form.Label>Disponible?</Form.Label>
+                            <Form.Check
+                                inline
+                                type="radio"
+                                value={true}
+                                aria-label="radio 1"
+                                label="Si"
+                                name="EnReparacion"
+                                onChange={(e) => handleChangeToF(e)}
+                            />
+                            <Form.Check
+                                inline
+                                type="radio"
+                                aria-label="radio 1"
+                                value={false}
+                                name="EnReparacion"
+                                label="No"
+                                onChange={(e) => handleChangeToF(e)}
+                            />
+                        </Form.Group>
+                        <Form.Group size="lg" controlId="foto">
+                            <Form.Label>Foto</Form.Label>
+                            <Form.Control
+                                type="file"
+                                name="Foto"
+                                value={datos.Foto}
+                                onChange={(e) => onChangeF(e)}
+                            />
+                        </Form.Group>
+                        <Form.Group size="lg" controlId="cantPersonas">
+                            <Form.Label>cantidad de personas</Form.Label>
+                            <Form.Control
+                                type="number"
+                                name="CantPersonas"
+                                value={datos.CantPersonas}
+                                onChange={(e) => onChangeF(e)}
+                            />
+                            <Dropdown>
+                                <Dropdown.Toggle variant="primary" id="dropdown-ubicacion">
+                                    Tipo de Piso: {pisoSeleccionado}
+                                </Dropdown.Toggle>
+                                <Dropdown.Menu>
+                                    <Dropdown.Item onClick={() => handlePisoSelect('Cemento')}>Cemento</Dropdown.Item>
+                                    <Dropdown.Item onClick={() => handlePisoSelect('Cintetico')}>Cintetico</Dropdown.Item>
+                                    <Dropdown.Item onClick={() => handlePisoSelect('Pasto')}>Pasto</Dropdown.Item>
+                                    <Dropdown.Item onClick={() => handlePisoSelect('Caucho')}>Caucho</Dropdown.Item>
+                                </Dropdown.Menu>
+                            </Dropdown>
 
-                    <p className="modalText">{datos.Deporte}</p>
-                    <p className="modalText">{datos.CantPersonas}</p>
-                    <p className="modalText">{datos.TipoPiso}</p>
-                    <p className="modalText">{datos.Precio}</p> 
-
+                        </Form.Group>
+                        <Form.Group size="lg" controlId="precio">
+                            <Form.Label>Precio por turno</Form.Label>
+                            <Form.Control
+                                type="number"
+                                name="Precio"
+                                value={datos.Precio}
+                                onChange={(e) => onChangeF(e)}
+                            />
+                        </Form.Group>
+                        <Button onClick={submitEdit} size="lg" type="submit" className='botonGen'>
+            Guardar
+          </Button>
+                    </Form>
                 </Modal.Body>
+
                 <Modal.Footer>
                 </Modal.Footer>
             </Modal>
         </div>
-
-
     );
 }
+
+
+
+
 
 export default Canchas;

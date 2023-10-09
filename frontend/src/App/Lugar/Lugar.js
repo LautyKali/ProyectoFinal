@@ -33,7 +33,7 @@ function Lugar() {
     }, []);
 
     const navigateToCanchas = (Id) => {
-        Navigate('/Canchas/', { state: { id: Id } });
+        Navigate('/Canchas/' + Id);
     }
     const navigateToHome = () => { 
         Navigate('/');

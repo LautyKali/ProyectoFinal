@@ -26,7 +26,7 @@ const App = () => {
         <Route path="/FormDueño" element={<FormDueño />} />
         <Route path="/CrearCancha" element={<CrearCancha />} />
         <Route path="/Lugar" element={<Lugar/>} />
-        <Route path="/Canchas" element={<Canchas/>} />
+        <Route path="/Canchas/:id" element={<Canchas/>} />
       </Routes>
     </BrowserRouter>
     </usuarioContext.Provider>
