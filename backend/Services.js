@@ -146,14 +146,14 @@ export class Cancha {
             .query('INSERT INTO Cancha (Nombre, Foto, Deporte, EnReparacion, CantPersonas, TipoPiso, Precio, fkLugar) VALUES (@Nombre, @Foto, @Deporte, @EnReparacion, @CantPersonas, @TipoPiso, @Precio, @fkLugar)')
     }
 
-    static update = async (cancha) => {
-        const { Id, Nombre, Foto, Deporte, EnReparacion, CantPersonas, TipoPiso, Precio, fkLugar } = cancha
+    static update = async (id, cancha) => {
+        const { Nombre, Foto, Deporte, EnReparacion, CantPersonas, TipoPiso, Precio, fkLugar } = cancha
         let returnEntity = null;
-        console.log("Estoy en: update");
+        console.log("Estoy en: update", cancha);
         try {
             let pool = await sql.connect(config)
             let result = await pool.request()
-                .input('pId', sql.Int, Id)
+                .input('pId', sql.Int, id)
                 .input('Nombre', sql.NVarChar(4000), Nombre)
                 .input('Foto', sql.NVarChar(4000), Foto)
                 .input('Deporte', sql.NVarChar(4000), Deporte)
@@ -161,8 +161,8 @@ export class Cancha {
                 .input('CantPersonas', sql.Int, CantPersonas)
                 .input('TipoPiso', sql.NVarChar(4000), TipoPiso)
                 .input('Precio', sql.Float, Precio)
-                .input('fkLugar', sql.Int, fkLugar)
-                .query('UPDATE Cancha SET Nombre = @Nombre, Foto = @Foto, Deporte = @Deporte, EnReparacion = @EnReparacion, CantPersonas = @CantPersonas, TipoPiso = @TipoPiso, Precio = @Precio, fkLugar = @fkLugar  WHERE Cancha.Id = @pId')
+                //.input('fkLugar', sql.Int, fkLugar)
+                .query('UPDATE Cancha SET Nombre = @Nombre, Foto = @Foto, Deporte = @Deporte, EnReparacion = @EnReparacion, CantPersonas = @CantPersonas, TipoPiso = @TipoPiso, Precio = @Precio  WHERE Cancha.Id = @pId')
             returnEntity = result.recordsets[0];
         } catch (error) {
             console.log(error);
@@ -232,9 +232,25 @@ export class Lugar {
         }
         return returnEntity;
     }
+    static getLugarById = async (Id) => {
+        let returnEntity = null;
+        console.log("Estoy en: GetCanchasByLugar");
+        try {
+            let pool = await sql.connect(config)
+            let result = await pool.request()
+                .input('pId', sql.Int(), Id)
+                .query("SELECT L.Id, L.Nombre, L.Ubicacion, L.Zona, L.Foto FROM Lugar L INNER JOIN Usuario U on L.fkDueño = U.Id WHERE U.Id = @pId");
+            // console.log(result.recordset);
+            returnEntity = result.recordset;
+        } catch (error) {
+            console.log(error);
+        }
+        return returnEntity
+    }
+    }
 
 
-}
+
 
 
 

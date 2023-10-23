@@ -25,15 +25,27 @@ function Lugar() {
     useEffect(() => {
         console.log("LMAO");
         console.log("ROL:" , context.usuario.fkRol)
-        axios.get("http://localhost:5001/lugar")
+        console.log("ID:",context.usuario.Id)
+        if (context.usuario.fkRol === 2) {
+            axios.get("http://localhost:5001/lugar/" + context.usuario.Id)
             .then(res => {
                 console.log("AXIOSRES", res)
                 setLugares(res.data);
             });
+        }
+        else if (context.usuario.fkRol === 3){
+            axios.get("http://localhost:5001/lugar")
+            .then(res => {
+                console.log("AXIOSRES", res)
+                setLugares(res.data);
+            });
+        }
     }, []);
 
-    const navigateToCanchas = (Id) => {
-        Navigate('/Canchas/' + Id);
+    
+    const navigateToCanchas = (IdL) => {
+        console.log("lugarID", IdL)
+        Navigate('/Canchas/' + IdL);
     }
     const navigateToHome = () => { 
         Navigate('/');

@@ -66,7 +66,7 @@ app.get('/usuario', async(req,res)=>{
     res.status(200).json(usuario)
 })
 
-app.get('/usuario:id', async(req,res)=>{
+app.get('/usuario/:id', async(req,res)=>{
     const usuario = await Usuario.getUsuarioById(req.params.id);
     console.log(usuario)
     res.status(200).json(usuario)
@@ -87,8 +87,10 @@ app.post('/cancha/post', async(req,res) =>{
 
 //funca
 app.put('/cancha/put/:id',async(req,res) => {
-    let cancha = await Cancha.update(req.body);
-    res.status(201).json({message: 'Cancha actualizada'})
+
+    console.log("flecha!!!!!!", req.body);
+
+    let cancha = await Cancha.update(req.params.id, req.body);
     res.status(202).send(cancha);
 })
 
@@ -104,6 +106,12 @@ app.get('/lugar', async(req,res) => {
     const lugar = await Lugar.getAll();
     console.log(lugar);
     res.status(200).json(lugar);
+})
+
+app.get('/lugar/:id', async(req,res)=>{
+    const lugar = await Lugar.getLugarById(req.params.id);
+    console.log(lugar)
+    res.status(200).json(lugar)
 })
 //funca
 app.delete('/lugar/delete/:id', async(req,res) => {
