@@ -27,7 +27,7 @@ function Canchas() {
     const [showModal, setShowModal] = useState(false);
     const Navigate = useNavigate('');
     useEffect(() => {
-        console.log("LMAO");
+        console.log("LMAO", context.usuario);
         axios.get("http://localhost:5001/cancha/" + id)
             .then(res => {
                 console.log("AXIOSRES asdasd", res)
@@ -56,10 +56,20 @@ function Canchas() {
     setDatos({...datos,["TipoPiso"]:Piso})
   }
 
-    const submitEdit = (e) => {
+    async function submitEdit(e) {
         e.preventDefault();
+       const response =  await axios.put(`http://localhost:5001/cancha/put/${canchaIdEditar}`, datos)
+        .then(response => {
+            setDatos(datos)
+        })
+        .catch(error => {
+            console.log("error",e);
+        });
+        handleModalClose()
+        };
+    
 
-    }
+
     const handleChangeToF = e => {
     e.persist();
     onChangeF(e);
@@ -68,6 +78,10 @@ function Canchas() {
   const navigateToHome = () => { 
     Navigate('/');
 }
+
+async function submitEditReserva(e) {
+    e.preventDefault();
+    };
 
     if (cancha.length === 0) return (<div></div>);
     
@@ -247,7 +261,7 @@ function Canchas() {
 
                                         </Card.Text>
                                     </Card.Body>
-                                    <Button onClick={() => handleModalOpen(element)} className="block">Reservar</Button>
+                                    <Button onClick={() => submitEditReserva} className="block">Reservar</Button>
                                 </Card>
                             </Col>
                         )
@@ -262,7 +276,7 @@ function Canchas() {
                 </Modal.Header>
                 <Modal.Body>
                     ESTAMOS RESERVANDO LA CANCHA {canchaIdEditar}
-                    <Form onSubmit={submitEdit}>
+                    <Form onSubmit={submitEditReserva}>
                     <Form.Group size="lg" controlId="nombre">
                             <Form.Label>Nombre</Form.Label>
                             <Form.Control
@@ -342,7 +356,7 @@ function Canchas() {
                                 onChange={(e) => onChangeF(e)}
                             />
                         </Form.Group>
-                        <Button onClick={submitEdit} size="lg" type="submit" className='botonGen'>
+                        <Button onClick={submitEditReserva} size="lg" type="submit" className='botonGen'>
             Guardar
           </Button>
                     </Form>
