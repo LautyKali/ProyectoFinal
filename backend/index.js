@@ -89,7 +89,6 @@ app.post('/cancha/post', async(req,res) =>{
 app.put('/cancha/put/:id',async(req,res) => {
 
     console.log("flecha!!!!!!", req.body);
-
     let cancha = await Cancha.update(req.params.id, req.body);
     res.status(202).send(cancha);
 })
