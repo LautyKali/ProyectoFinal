@@ -147,7 +147,7 @@ export class Cancha {
     }
 
     static update = async (id, cancha) => {
-        const { Nombre, Foto, Deporte, EnReparacion, CantPersonas, TipoPiso, Precio, fkLugar } = cancha
+        const { Nombre, Foto, Deporte, EnReparacion, CantPersonas, TipoPiso, Precio } = cancha
         let returnEntity = null;
         console.log("Estoy en: update", cancha);
         try {
@@ -161,7 +161,6 @@ export class Cancha {
                 .input('CantPersonas', sql.Int, CantPersonas)
                 .input('TipoPiso', sql.NVarChar(4000), TipoPiso)
                 .input('Precio', sql.Float, Precio)
-                //.input('fkLugar', sql.Int, fkLugar)
                 .query('UPDATE Cancha SET Nombre = @Nombre, Foto = @Foto, Deporte = @Deporte, EnReparacion = @EnReparacion, CantPersonas = @CantPersonas, TipoPiso = @TipoPiso, Precio = @Precio  WHERE Cancha.Id = @pId')
             returnEntity = result.recordsets[0];
         } catch (error) {
