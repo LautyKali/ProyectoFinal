@@ -72,6 +72,12 @@ app.get('/usuario/:id', async(req,res)=>{
     res.status(200).json(usuario)
 })
 
+app.put('/usuario/updateRol'), async(req,res) => {
+    const usuario = await Usuario.updateRol(req.body);
+    console.log(usuario)
+    res.status(200).json(usuario)
+}
+
 app.use(express.json())
 
 //funca
