@@ -31,9 +31,7 @@ function Canchas() {
         axios.get("http://localhost:5001/cancha/" + id)
             .then(res => {
                 console.log("AXIOSRES asdasd", res)
-                setCancha(
-                    res.data
-                );
+                setCancha(res.data);
             })
     }, [showModal])
 

@@ -72,11 +72,12 @@ app.get('/usuario/:id', async(req,res)=>{
     res.status(200).json(usuario)
 })
 
-app.put('/usuario/updateRol'), async(req,res) => {
-    const usuario = await Usuario.updateRol(req.body);
+app.put('/usuarioUpdateRol/:id', async(req,res) => {
+    const row = await Usuario.updateRol(req.body,req.params.id);
+    const usuario  = Usuario.getUsuarioById(req.params.id)
     console.log(usuario)
     res.status(200).json(usuario)
-}
+})
 
 app.use(express.json())
 

@@ -74,10 +74,10 @@ export class Usuario {
         .request()
         .input("pId", sql.Int(), Id)
         .input("Nombre", sql.NVarChar(4000), Nombre)
-        .input("Telefono", sql.NChar(4000), Telefono)
-        .input("Mail", sql.NChar(4000), Mail)
-        .input("Contrasenna", sql.NChar(4000), Contrasenna)
-        .input("Foto", sql.NChar(4000), Foto)
+        .input("Telefono", sql.NVarChar(4000), Telefono)
+        .input("Mail", sql.NVarChar(4000), Mail)
+        .input("Contrasenna", sql.NVarChar(4000), Contrasenna)
+        .input("Foto", sql.NVarChar(4000), Foto)
         .input("fkRol", sql.Int, fkRol)
         .query("UPDATE Usuario SET Nombre = @Nombre WHERE Usuario.Id = @pId");
       returnEntity = result.recordsets[0];
@@ -114,20 +114,20 @@ export class Usuario {
     }
     return returnEntity;
   };
-  static changeRol = async (usuario) => {
+  static updateRol = async (usuario,id) => {
     let returnEntity = null;
-    const { Id, Nombre, Telefono, Mail, Contrasenna, Foto, fkRol } = usuario;
+    const { Nombre, Telefono, Mail, Contrasenna, Foto, fkRol } = usuario;
     try {
         let pool = await sql.connect(config);
         let result = await pool
           .request()
-          .input("pId", sql.Int(), Id)
+          .input("pId", sql.Int(), id)
           .input("Nombre", sql.NVarChar(4000), Nombre)
-          .input("Telefono", sql.NChar(4000), Telefono)
-          .input("Mail", sql.NChar(4000), Mail)
-          .input("Contrasenna", sql.NChar(4000), Contrasenna)
-          .input("Foto", sql.NChar(4000), Foto)
-          .input("fkRol", sql.Int, 3)
+          .input("Telefono", sql.NVarChar(4000), Telefono)
+          .input("Mail", sql.NVarChar(4000), Mail)
+          .input("Contrasenna", sql.NVarChar(4000), Contrasenna)
+          .input("Foto", sql.NVarChar(4000), Foto)
+          .input("fkRol", sql.Int, 2)
           .query("UPDATE Usuario SET fkRol = @fkRol WHERE Usuario.Id = @pId");
         returnEntity = result.recordsets[0];
       } catch (error) {
@@ -252,15 +252,15 @@ export class Lugar {
   };
 
   static insert = async (lugar) => {
-    console.log("Estoy en: crear lugar");
+    console.log("Estoy en: crear lugar", lugar);
     const { nombre, ubicacion, zona, fotos, fkDueño } = lugar;
     let pool = await sql.connect(config);
     let result = await pool
       .request()
       .input("Nombre", sql.NVarChar(4000), nombre)
-      .input("Ubicacion", sql.NChar(4000), ubicacion)
-      .input("Zona", sql.NChar(4000), zona)
-      .input("Foto", sql.NChar(4000), fotos)
+      .input("Ubicacion", sql.NVarChar(4000), ubicacion)
+      .input("Zona", sql.NVarChar(4000), zona)
+      .input("Foto", sql.NVarChar(4000), fotos)
       .input("fkDueño", sql.Int, fkDueño)
       .query(
         "INSERT INTO Lugar (Nombre, Ubicacion, Zona, Foto, fkDueño) VALUES (@Nombre, @Ubicacion, @Zona, @Foto, @fkDueño)"
