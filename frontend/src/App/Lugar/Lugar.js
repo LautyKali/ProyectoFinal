@@ -38,7 +38,7 @@ function Lugar() {
                     setLugares(res.data);
                 });
         }
-    }, []);
+    }, [context.usuario.fkRol]);
 
     const navigateToCanchas = (IdL) => {
         console.log("lugarID", IdL)

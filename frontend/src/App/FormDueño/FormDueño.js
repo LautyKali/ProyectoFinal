@@ -32,7 +32,10 @@ function formDueño() {
     console.log(lugar)
     axios.post('http://localhost:5001/lugar/post', lugar)
       .then(res => {
-        Navigate('/lugar')
+        axios.patch('http://localhost:5001/usuario/updateRol',context.usuario)
+        then(res => {
+          Navigate('/lugar')
+        })
       })
       .catch(e => {
         console.log(e.response.status, e.data);
