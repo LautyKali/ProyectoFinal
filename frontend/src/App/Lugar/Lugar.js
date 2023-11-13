@@ -112,7 +112,7 @@ function Lugar() {
                 <Navbar className="barraLogo"  expand="lg">
                     <Navbar.Brand  onClick={navigateToHome}> <a className="textoLogo">CANCHEROS</a><img className="LogoLugar" src={LogoCancheros} alt="Logo Cancheros" /></Navbar.Brand>
                     <Nav className="mr-auto">
-                        <Nav.Link href="/CrearCancha">Crear cancha</Nav.Link>
+                    <Nav.Link onClick={() => Navigate("/CrearCancha", { state: lugares })}>CrearCancha</Nav.Link>
                     </Nav>
                     <Navbar.Collapse id="basic-navbar-nav"></Navbar.Collapse>
                 </Navbar>

@@ -27,7 +27,7 @@ function Canchas() {
     const [showModal, setShowModal] = useState(false);
     const Navigate = useNavigate('');
     useEffect(() => {
-        console.log("LMAO", context.usuario);
+        console.log("LMAO", id);
         axios.get("http://localhost:5001/cancha/" + id)
             .then(res => {
                 console.log("AXIOSRES asdasd", res)

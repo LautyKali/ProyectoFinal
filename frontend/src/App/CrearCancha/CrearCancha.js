@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
-import { Link } from 'react-router-dom'
-import { useNavigate } from 'react-router-dom'
+import { Link, useLocation } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import axios from 'axios';
 import React, { Component } from 'react';
 import Dropdown from 'react-bootstrap/Dropdown';
@@ -10,23 +10,32 @@ import Container from 'react-bootstrap/Container';
 
 
 function CrearCancha() {
-
   const Navigate = useNavigate('');
-  const navigate = useNavigate();
   const [deporte, setDeporte] = useState("");
   const [enReparacion, setEnReparacion] = useState();
   const [nombre, setNombre] = useState("");
   const [foto, setfoto] = useState("");
   const [cantPersonas, setCantPersonas] = useState("");
-  const [fkLugar, setFkLugar] = useState(2);
+  const [fkLugar, setFkLugar] = useState(0);
   const [precio, setPrecio] = useState({ estado: "", another: "another" });;
   const [pisoSeleccionado, setPisoSeleccionado] = useState('');
   const [formValido, setFormValido] = useState(false);
+
+  const {state} = useLocation();
 
   //let item;
   //let i;
   //const { opcion } = item;
   //const { estado } = i
+
+  useEffect(() => {
+    console.log("KAKAKA", state);
+    setFkLugar(state[0].Id);
+  }, []);
+
+  useEffect(() => {
+    console.log(fkLugar);
+  }, [fkLugar])
 
   const handlePisoSelect = (Piso) => {
     setPisoSeleccionado(Piso);
@@ -50,18 +59,24 @@ function CrearCancha() {
   const handleSubmit = (event) => {
     event.preventDefault();
     let cancha = {
-      nombre: nombre,
-      foto: foto,
-      deporte: deporte,
-      enReparacion: enReparacion,
-      cantPersonas: cantPersonas,
-      tipoPiso: pisoSeleccionado,
-      precio: precio,
+      Nombre: nombre,
+      Foto: foto,
+      Deporte: deporte,
+      EnReparacion: enReparacion,
+      CantPersonas: cantPersonas,
+      TipoPiso: pisoSeleccionado,
+      Precio: precio,
       fkLugar: fkLugar,
     }
+
+    console.log("Crear cancha", cancha);
+
     axios.post('http://localhost:5001/cancha/post', cancha)
       .then(res => {
-        Navigate('/cancha')
+        setFkLugar(res.data.fkLugar)
+        console.log(res.data)
+        axios.get("http://localhost:5001/canchaId/"+ res.data.fkLugar)
+        Navigate('/Lugar' )
       })
       .catch(e => {
         console.log(e.response.status, e.data);
@@ -105,15 +120,15 @@ function CrearCancha() {
               aria-label="radio 1"
               label="Si"
               name="disponible"
-              onChange={ handleChangeToF}
+              onChange={handleChangeToF}
             />
             <Form.Check
               inline
               type="radio"
               aria-label="radio 1"
               value={false}
-              name="disponible"
               label="No"
+              name="disponible"
               onChange={handleChangeToF}
             />
           </Form.Group>
