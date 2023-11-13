@@ -84,6 +84,8 @@ app.use(express.json())
 //funca
 app.post('/cancha/post', async(req,res) =>{
     try{
+        console.log("REQ BODY", req.body);
+
         await Cancha.insert(req.body)
         res.status(201).json({message: 'Cancha creada'})
     } catch (error){
@@ -105,6 +107,12 @@ app.put('/cancha/put/:id',async(req,res) => {
 app.delete('/cancha/delete/:id', async(req,res) => {
     const cancha = await Cancha.deleteById(req.params.id)
     res.status(202).send(cancha)
+})
+
+app.get('/canchaId/:id', async(req,res)=>{
+    const cancha = await Cancha.getCanchaById(req.params.id);
+    console.log(cancha)
+    res.status(200).json(cancha)
 })
 
 //funca

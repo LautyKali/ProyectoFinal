@@ -157,6 +157,26 @@ export class Cancha {
     return returnEntity;
   };
 
+
+  static getCanchaById = async (Id) => {
+    let returnEntity = null;
+    console.log("Estoy en: GetCanchasById");
+    try {
+      let pool = await sql.connect(config);
+      let result = await pool
+        .request()
+        .input("pId", sql.Int(), Id)
+        .query(
+          "SELECT C.Id, C.Nombre, C.Foto, C.Deporte, C.EnReparacion, C.CantPersonas, C.TipoPiso, C.Precio FROM Cancha C  WHERE C.Id = @pId"
+        );
+      // console.log(result.recordset);
+      returnEntity = result.recordset;
+    } catch (error) {
+      console.log(error);
+    }
+    return returnEntity;
+  };
+
   static insert = async (cancha) => {
     console.log("Estoy en: crear cancha");
     const {
@@ -291,7 +311,7 @@ export class Lugar {
         .request()
         .input("pId", sql.Int(), Id)
         .query(
-          "SELECT L.Id, L.Nombre, L.Ubicacion, L.Zona, L.Foto FROM Lugar L INNER JOIN Usuario U on L.fkDueño = U.Id WHERE U.Id = @pId"
+          "SELECT L.Id, L.Nombre, L.Ubicacion, L.Zona, L.Foto, L.fkDueño FROM Lugar L INNER JOIN Usuario U on L.fkDueño = U.Id WHERE U.Id = @pId"
         );
       // console.log(result.recordset);
       returnEntity = result.recordset;
