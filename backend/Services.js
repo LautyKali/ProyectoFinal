@@ -255,7 +255,22 @@ export class Cancha {
     }
     return returnEntity;
   };
-}
+
+  static reservar = async(Id,reserva) => {
+    let returnEntity = null;
+    console.log("Estoy en reservar cancha");
+    try{
+      let pool = await sql.connect(config);
+      let result = await pool
+      .request()
+    }
+    catch(error){
+      console.log(error);
+    }
+    return returnEntity;
+  }
+ }
+
 
 export class Lugar {
   static getAll = async () => {
@@ -320,4 +335,9 @@ export class Lugar {
     }
     return returnEntity;
   };
+}
+export class Horarios{
+
+  static 
+
 }

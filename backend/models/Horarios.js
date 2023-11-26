@@ -1,5 +1,7 @@
 class Horarios{
     id;
-    horario;
+    fecha;
+    reservado;
+    fkCancha;
 }
 export default Horarios;
