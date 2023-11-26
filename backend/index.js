@@ -3,6 +3,8 @@ import { Usuario, Cancha, Lugar } from "./Services.js";
 import config from './dbconfig.js';
 import sql from 'mssql';
 import cors from 'cors';
+import Horarios from "./models/Horarios.js";
+import Reserva from "./models/Reserva.js";
 const app = express();
 const port = 5001;
 app.use(express.json())
@@ -84,8 +86,6 @@ app.post('/cancha/post', async(req,res) =>{
 
 //funca
 app.put('/cancha/put/:id',async(req,res) => {
-
-    console.log("flecha!!!!!!", req.body);
     let cancha = await Cancha.update(req.params.id, req.body);
     res.status(202).send(cancha);
 })
@@ -100,6 +100,12 @@ app.delete('/cancha/delete/:id', async(req,res) => {
 app.get('/canchaId/:id', async(req,res)=>{
     const cancha = await Cancha.getCanchaById(req.params.id);
     console.log(cancha)
+    res.status(200).json(cancha)
+})
+
+app.post('/cancha/reservar/:id', async(req,res) =>{
+    let r = await Cancha.reservar(req.params.id, req.body)
+    let h = await Horarios.cambiarDispo()
     res.status(200).json(cancha)
 })
 
