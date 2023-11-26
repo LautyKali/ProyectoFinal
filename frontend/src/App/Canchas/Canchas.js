@@ -57,6 +57,10 @@ function Canchas() {
     setDatos({ ...datos, ["tipoTarjeta"]: tipoTarjeta });
   };
 
+  const setSeñaReserva = (seña) =>{
+    setDatos({ ...datos, ["precioSeña"]: seña })
+  }
+
   async function submitEdit(e) {
     e.preventDefault();
     const response = await axios
