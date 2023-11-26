@@ -19,6 +19,10 @@ function Login() {
         navigate('/Register');
     }
 
+    const navigateTo404 = () => {
+        navigate('/NotFound');
+    }
+
     function validateForm() {
         return mail.length > 0 && password.length > 0;
     }
@@ -64,7 +68,7 @@ function Login() {
                     />
                 </Form.Group>
                 <Form.Group size="lg">
-                    <Link to="olvideContra" >¿Olvidaste tu contraseña?</Link>
+                <Button onClick={()=>navigateTo404()} className="botonContra">¿Olvidaste tu contraseña?</Button>
                 </Form.Group>
                 <Button color="blue" block size="lg" type="submit" className="botonGen" disabled={!validateForm()}>
                     Iniciar sesion </Button>

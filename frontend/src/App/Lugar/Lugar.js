@@ -20,6 +20,20 @@ function Lugar() {
     const [lugares, setLugares] = useState([]);
     const [zonaSeleccionada, setZonaSeleccionada] = useState('');
     const Navigate = useNavigate('');
+    const [isDropdownOpen, setDropdownOpen] = useState(false);
+        const handleDropdownToggle = () => {
+          setDropdownOpen(!isDropdownOpen);
+        };
+      
+        const handleLogout = () => {
+          context.setUsuarioContext('')
+          console.log('Usuario deslogueado');
+          Navigate('/')
+        };
+
+
+
+
 
     useEffect(() => {
         console.log("LMAO");
@@ -62,10 +76,11 @@ function Lugar() {
     return context.usuario.fkRol !== 2 ? (
         <div className="Fondo">
             <Navbar bg="light" expand="lg">
-                <Navbar.Brand onClick={navigateToHome}><img className="LogoLugar" src={LogoCancheros} alt="Logo Cancheros" /></Navbar.Brand>
+                <Navbar.Brand onClick={()=>navigateToHome}><img className="LogoLugar" src={LogoCancheros} alt="Logo Cancheros" /></Navbar.Brand>
                 <Nav className="mr-auto">
-                    <Nav.Link onClick={() => Navigate("/FormDueño")}>Unirse como dueño</Nav.Link>
+                    <Nav.Link onClick={() => Navigate("/FormDueño")}>Unirse como dueño</Nav.Link>      
                 </Nav>
+                <Navbar.Brand className="logOut" onClick={navigateToHome}>Salir</Navbar.Brand>
                 <Navbar.Collapse id="basic-navbar-nav"></Navbar.Collapse>
             </Navbar>
 
@@ -110,10 +125,11 @@ function Lugar() {
         (
             <div className="Fondo">
                 <Navbar className="barraLogo"  expand="lg">
-                    <Navbar.Brand  onClick={navigateToHome}> <a className="textoLogo">CANCHEROS</a><img className="LogoLugar" src={LogoCancheros} alt="Logo Cancheros" /></Navbar.Brand>
+                    <Navbar.Brand  onClick={()=>navigateToHome}> <img className="LogoLugar" src={LogoCancheros} alt="Logo Cancheros" /></Navbar.Brand>
                     <Nav className="mr-auto">
                     <Nav.Link onClick={() => Navigate("/CrearCancha", { state: lugares })}>CrearCancha</Nav.Link>
                     </Nav>
+                    <Navbar.Brand className="logOut" onClick={navigateToHome}>Salir</Navbar.Brand>
                     <Navbar.Collapse id="basic-navbar-nav"></Navbar.Collapse>
                 </Navbar>
 

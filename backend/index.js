@@ -39,18 +39,6 @@ app.post('/login',async(req,res) =>{
 
 })
 
-//funca
-app.put('/usuario/cambiarcontrasenna/:id',async(req,res) => {
-    let ususario = await Usuario.CambiarContrasenna(req.body);
-    res.status(201).json({message: 'Contraseña cambiada'})
-    res.status(202).send(ususario);
-})
-//funca
-app.put('/usuario/cambiarusuario',async(req,res) => {
-    let ususario = await Usuario.CambiarUsuario(req.body);
-    res.status(201).json({message: 'Usuario cambiado'})
-    res.status(202).send(ususario);
-})
 
 //funca
 app.get('/cancha/:id', async(req,res) => {

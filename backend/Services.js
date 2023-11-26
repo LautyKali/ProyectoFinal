@@ -40,52 +40,9 @@ export class Usuario {
       );
   };
 
-  static CambiarContrasenna = async (Usuario) => {
-    console.log("Estoy en cambiar Contrasenna");
-    let returnEntity = null;
-    const { Id, Nombre, Telefono, Mail, Contrasenna, Foto, fkRol } = Usuario;
-    try {
-      let pool = await sql.connect(config);
-      let result = await pool
-        .request()
-        .input("pId", sql.Int(), Id)
-        .input("Nombre", sql.NVarChar(4000), Nombre)
-        .input("Telefono", sql.NVarChar(4000), Telefono)
-        .input("Mail", sql.NVarChar(4000), Mail)
-        .input("Contrasenna", sql.NVarChar(4000), Contrasenna)
-        .input("Foto", sql.NVarChar(4000), Foto)
-        .input("fkRol", sql.Int, fkRol)
-        .query(
-          "UPDATE Usuario SET Contrasenna = @Contrasenna WHERE Usuario.Id = @pId"
-        );
-      returnEntity = result.recordsets[0];
-    } catch (error) {
-      console.log(error);
-    }
-    return returnEntity;
-  };
+  
 
-  static CambiarUsuario = async (Usuario) => {
-    console.log("Estoy en cambiar Contrasenna");
-    const { Id, Nombre, Telefono, Mail, Contrasenna, Foto, fkRol } = Usuario;
-    try {
-      let pool = await sql.connect(config);
-      let result = await pool
-        .request()
-        .input("pId", sql.Int(), Id)
-        .input("Nombre", sql.NVarChar(4000), Nombre)
-        .input("Telefono", sql.NVarChar(4000), Telefono)
-        .input("Mail", sql.NVarChar(4000), Mail)
-        .input("Contrasenna", sql.NVarChar(4000), Contrasenna)
-        .input("Foto", sql.NVarChar(4000), Foto)
-        .input("fkRol", sql.Int, fkRol)
-        .query("UPDATE Usuario SET Nombre = @Nombre WHERE Usuario.Id = @pId");
-      returnEntity = result.recordsets[0];
-    } catch (error) {
-      console.log(error);
-    }
-    return returnEntity;
-  };
+  
 
   static getUsuario = async () => {
     let returnEntity = null;
@@ -106,7 +63,7 @@ export class Usuario {
       let pool = await sql.connect(config);
       let result = await pool
         .request()
-        .input("pId", sql.Int(), Id)
+        .input("pId", sql.Int(), id)
         .query("SELECT * FROM Usuario WHERE Usuario.Id = @pId ");
       returnEntity = result.recordsets[0];
     } catch (error) {

@@ -12,6 +12,8 @@ import Canchas from './Canchas/Canchas'
 import FormDueño from './FormDueño/FormDueño'
 import CrearCancha from './CrearCancha/CrearCancha'
 import usuarioContext from '../Context/context';
+import NotFound from './NotFound/NotFound';
+
 
 const App = () => {
 
@@ -26,6 +28,7 @@ const App = () => {
         <Route path="/FormDueño" element={<FormDueño />} />
         <Route path="/CrearCancha" element={<CrearCancha />} />
         <Route path="/Lugar" element={<Lugar/>} />
+        <Route path="*" element={<NotFound/>} />
         <Route path="/Canchas/:id" element={<Canchas/>} />
       </Routes>
     </BrowserRouter>

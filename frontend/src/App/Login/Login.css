@@ -63,11 +63,6 @@ label{
     color: aliceblue;
     font-size: medium;
 }
-  
-a{
-    color: cyan;
-    font-size: large;
-}
 h1{
   color:white;
   font-weight: bold;
@@ -79,4 +74,19 @@ h1{
   text-align: center;
   justify-content: center;
   margin-left: auto ;
+}
+
+
+.botonContra{
+  background-color: transparent;
+  color: cyan;
+  font-size: large;
+  border: transparent;
+}
+
+.botonContra:hover{
+  background-color: transparent;
+  color: cyan;
+  font-size: large;
+  border: transparent;
 }
