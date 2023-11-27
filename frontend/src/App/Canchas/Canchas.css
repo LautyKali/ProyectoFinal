@@ -1,3 +1,27 @@
+body.Canchas{
+    margin: 0;
+    padding: 0;
+    font-family: sans-serif;
+    background-size: cover;
+    min-height: 100vh;
+    text-align: center;
+}
+
+.Fondo {
+    background-color: #7854C4;
+    padding: 20px;
+    min-height: 100vh;
+}
+
+
+.barraLogo {
+    background-color: rgba(98, 24, 173, 0.651);
+}
+
+.textoLogo {
+    font-size: large;
+}
+
 p{
     font-weight: bold;
 }
@@ -19,4 +43,76 @@ label.form-label{
 label.form-check-label{
     font-weight: bold;
     color: black;
+}
+
+
+.navBar{
+    background-color: white;
+    margin: 0%;
+    padding: 0%;
+    margin-top: 0% !important;
+}
+
+
+a.nav-link{
+    text-align: center;
+    align-items: center;
+    font-size: large;
+    margin-left: auto;
+    color: black;
+    margin-left: 650%;
+}
+
+a.nav-link:hover{
+    text-align: center;
+    align-items: center;
+    font-size: large;
+    color: #7854C4;
+    margin-left: 650%;
+}
+
+.logOut{
+    font-size: large;
+    cursor: pointer;
+    color: blue;
+    margin-left: 3300%
+}
+
+p.card-text{
+    font-size: x-large;
+}
+  
+.verMas{
+    width: 60%;
+    font-size: large;
+}
+
+.custom-card {
+    margin-bottom: 20px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+  }
+  
+  .custom-card img {
+    width: 100%;
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+  }
+
+  .dropdown{
+    margin-top: 2%;
+    margin-bottom: 2%;
+  }
+
+#dropdown-ubicacion{
+font-size: medium;
+}
+
+a.dropdown-item{
+    font-size: medium;
+}
+
+h1{
+    color: black;
+    font-size: xx-large;
 }

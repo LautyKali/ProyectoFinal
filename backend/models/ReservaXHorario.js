@@ -1,5 +1,5 @@
 class ReservaXHorario{
     fkReserva;
-    fkHorarario;
+    fkHorario;
 }
-export default CanchasXHorario;
+export default ReservaXHorario;

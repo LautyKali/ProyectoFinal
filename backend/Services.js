@@ -40,9 +40,9 @@ export class Usuario {
       );
   };
 
-  
 
-  
+
+
 
   static getUsuario = async () => {
     let returnEntity = null;
@@ -71,26 +71,26 @@ export class Usuario {
     }
     return returnEntity;
   };
-  static updateRol = async (usuario,id) => {
+  static updateRol = async (usuario, id) => {
     let returnEntity = null;
     const { Nombre, Telefono, Mail, Contrasenna, Foto, fkRol } = usuario;
     try {
-        let pool = await sql.connect(config);
-        let result = await pool
-          .request()
-          .input("pId", sql.Int(), id)
-          .input("Nombre", sql.NVarChar(4000), Nombre)
-          .input("Telefono", sql.NVarChar(4000), Telefono)
-          .input("Mail", sql.NVarChar(4000), Mail)
-          .input("Contrasenna", sql.NVarChar(4000), Contrasenna)
-          .input("Foto", sql.NVarChar(4000), Foto)
-          .input("fkRol", sql.Int, 2)
-          .query("UPDATE Usuario SET fkRol = @fkRol WHERE Usuario.Id = @pId");
-        returnEntity = result.recordsets[0];
-      } catch (error) {
-        console.log(error);
-      }
-      return returnEntity;
+      let pool = await sql.connect(config);
+      let result = await pool
+        .request()
+        .input("pId", sql.Int(), id)
+        .input("Nombre", sql.NVarChar(4000), Nombre)
+        .input("Telefono", sql.NVarChar(4000), Telefono)
+        .input("Mail", sql.NVarChar(4000), Mail)
+        .input("Contrasenna", sql.NVarChar(4000), Contrasenna)
+        .input("Foto", sql.NVarChar(4000), Foto)
+        .input("fkRol", sql.Int, 2)
+        .query("UPDATE Usuario SET fkRol = @fkRol WHERE Usuario.Id = @pId");
+      returnEntity = result.recordsets[0];
+    } catch (error) {
+      console.log(error);
+    }
+    return returnEntity;
   };
 }
 
@@ -133,6 +133,24 @@ export class Cancha {
     }
     return returnEntity;
   };
+
+  static getDisponibilidadCanchaXDia = async(id,fecha)=>{
+    let returnEntity = null;
+    console.log("Estoy en: Getdisponibilidad");
+    try{
+      let pool = await sql.connect(config);
+      let result = await pool
+        .request()
+        .input("pId", sql.Int(), id)
+        .input("pFecha", sql.Date(),fecha)
+        .query("Select * from ReservaXHorario WHERE fkReserva  IN (Select Id FROM Reserva  Where fkCancha  = @pId AND Fecha = @pFecha)")
+        returnEntity = result.recordset;
+      } catch (error) {
+        console.log(error);
+      }
+      return returnEntity;
+    };
+
 
   static insert = async (cancha) => {
     console.log("Estoy en: crear cancha");
@@ -213,20 +231,65 @@ export class Cancha {
     return returnEntity;
   };
 
-  static reservar = async(Id,reserva) => {
+  static reservar = async (Id, reserva) => {
+    const {
+      NumeroReserva,
+      PrecioSeña,
+      Fecha,
+      NumeroTarjeta,
+      TipoTarjeta,
+      fkUsuario,
+      fkCancha
+    } = reserva
     let returnEntity = null;
-    console.log("Estoy en reservar cancha");
-    try{
+    console.log("Estoy en reservar cancha", reserva);
+    try {
       let pool = await sql.connect(config);
       let result = await pool
-      .request()
+        .request()
+        .input("NumeroReserva", sql.Int, NumeroReserva)
+        .input("PrecioSeña", sql.Int, PrecioSeña)
+        .input("Fecha", sql.Date, Fecha)
+        .input("NumeroTarjeta", sql.NVarChar(4000), NumeroTarjeta)
+        .input("TipoTarjeta", sql.NVarChar, TipoTarjeta)
+        .input("fkUsuario", sql.Int, fkUsuario)
+        .input("fkCancha", sql.Int, Id)
+        .query(
+          "INSERT INTO Reserva (NumeroReserva, PrecioSeña, Fecha,  NumeroTarjeta, TipoTarjeta, fkUsuario, fkCancha) VALUES (@NumeroReserva, @PrecioSeña, @Fecha, @NumeroTarjeta, @TipoTarjeta, @fkUsuario, @fkCancha); SELECT SCOPE_IDENTITY() AS UltimoId;"
+        );
+        returnEntity =  result.recordset[0].UltimoId
+        console.log("result", result)
     }
-    catch(error){
+    catch (error) {
       console.log(error);
     }
     return returnEntity;
   }
- }
+
+  static reservarHorario = async(IdR, IdH) =>{
+    let returnEntity = null;
+    console.log("IDH",IdH)
+    try {
+      let pool = await sql.connect(config);
+      let result = await pool
+        .request()
+        .input("fkReserva", sql.Int, IdR)
+        .input("fkHorario", sql.Int, IdH)
+        .query(
+          "INSERT INTO ReservaXHorario (fkReserva, fkHorario) VALUES (@fkReserva, @fkHorario)"
+
+        );
+
+    
+    }
+    catch (error) {
+      console.log(error);
+    }
+    return returnEntity;
+  }
+
+  
+  }
 
 
 export class Lugar {
@@ -293,8 +356,21 @@ export class Lugar {
     return returnEntity;
   };
 }
-export class Horarios{
+export class Horario {
+  static getAllHorarios = async () =>{
+    let returnEntity = null;
+    try {
+      let pool = await sql.connect(config);
+      let result = await pool
+      .request()
+      .query("Select Id, FORMAT(Cast(Hora as DateTime), N'HH\:mm') As Hora from Horario");
+      returnEntity = result.recordsets[0];
+      console.log("returnennenene",returnEntity)
+    } catch (error) {
+      console.log(error);
+    }
+    return returnEntity;
+  };
 
-  static 
 
 }

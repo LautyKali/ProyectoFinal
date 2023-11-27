@@ -87,7 +87,7 @@ function Registrarse() {
         <Button size="lg" type="submit" className='botonGen' disabled={!validateForm()}>
           Registrarse
         </Button>
-        <Button onClick={navigateToLogin} className="block">Cuenta Existente</Button>
+        <Button onClick={navigateToLogin} className="blockReg">Cuenta Existente</Button>
 
       </Form>
     </div>

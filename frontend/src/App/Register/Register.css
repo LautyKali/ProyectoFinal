@@ -20,23 +20,36 @@ body {
 
   
   .tituloReg{
-    color: white;
+    color: rgb(0, 0, 0);
     font-weight: bold;
   }
 
-  .block{
+  .blockReg{
       display: block;
-      width: 10%;
+      width: 20%;
       height: auto;
       border: none;
-      background-color: #35f006;
+      background-color: #2fbd04;
       padding: 5px;
-      font-size: 15px;
-      cursor: pointer;
+      font-size: 30px;
       text-align: center;
-      margin-left: 45%;
+      margin-left: 40%;
       color: #f7f7f7;
   }
+
+  .blockReg:hover{
+    display: block;
+    width: 20%;
+    height: auto;
+    border: none;
+    background-color: #1c6c03;
+    padding: 5px;
+    font-size: 30px;
+    cursor: pointer;
+    text-align: center;
+    margin-left: 40%;
+    color: #f7f7f7;
+}
 
   .botonGen{
     display: inline-block;

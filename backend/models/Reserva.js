@@ -1,12 +1,14 @@
-class Reserva{
+class Reserva {
     id;
     numeroReserva;
     precioSeña;
     fecha;
+    hora;
     mailReserva;
-    fkUsuario;
-    fkCancha;
     numeroTarjeta;
     tipoTarjeta;
+    fkUsuario;
+    fkCancha;
+
 }
 export default Reserva;

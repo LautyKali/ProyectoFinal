@@ -17,47 +17,35 @@ input.form-control{
   width: 50%;
   font-size: large;
 }
-button.botonGen.btn.btn-primary.btn-lg{
-      display: inline-block;
-      height: auto;
-      padding: 1;
-      width: auto;
-      color: #f7f7f7;
-      background-color: rgb(96, 0, 250);
-      text-align: center;
-      font-size: small;
-      margin-top: 2%;
-      font-weight: 600;
-      line-height: 38px;
-      letter-spacing: .1rem;
-      text-transform: uppercase;
-      text-decoration: none;
-      white-space: nowrap;
-      border-radius: 4px;
-      border: 1px solid #bbb;
-      cursor: pointer;
-      box-sizing: border-box;
-}
 
 
-button.block.btn.btn-primary{
+.blockLog{
   display: block;
+  width: 20%;
   height: auto;
   border: none;
-  width: auto;
-  background-color: #0aca84;
-  font-size: xx-large;
-  padding: 0.2%;
-  margin-top: 1%;
-  cursor: pointer;
+  background-color: #2fbd04;
+  padding: 5px;
+  font-size: 30px;
   text-align: center;
-  justify-content: center;
+  margin-left: 40%;
+  color: #f7f7f7;
+}
 
+.blockLog:hover{
+display: block;
+width: 20%;
+height: auto;
+border: none;
+background-color: #1c6c03;
+padding: 5px;
+font-size: 30px;
+cursor: pointer;
+text-align: center;
+margin-left: 40%;
+color: #f7f7f7;
 }
-button.block.btn.btn-primary:hover{
-color: black;
-background-color: #0d9c68;
-}
+
 
 label{
     color: aliceblue;

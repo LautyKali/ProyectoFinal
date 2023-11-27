@@ -15,28 +15,55 @@ import { Modal } from "react-bootstrap";
 import Dropdown from "react-bootstrap/Dropdown";
 import Form from "react-bootstrap/Form";
 import usuarioContext from "../../Context/context";
+import horarioContext from "../../Context/hcontext";
+import LogoCancheros from '../../Logo.png'
+import { Link , Outlet} from 'react-router-dom';
 
 function Canchas() {
   const context = useContext(usuarioContext);
+  const hcontext = useContext(horarioContext);
   const [cancha, setCancha] = useState("");
   const { id } = useParams();
   const [pisoSeleccionado, setPisoSeleccionado] = useState("");
-  const [tipoTarjeta, setTipoTarjeta] = useState("");
+  const [TipoTarjeta, setTipoTarjeta] = useState("");
   const [datos, setDatos] = useState([]);
   const [canchaIdEditar, setCanchaIdEditar] = useState("");
   const [showModal, setShowModal] = useState(false);
   const Navigate = useNavigate("");
+  const [horariosNoDisponibles, setHorariosNoDisponibles] = useState([])
+
   useEffect(() => {
     console.log("LMAO", id);
+    console.log("contextUsuario",context.usuario)
     axios.get("http://localhost:5001/cancha/" + id).then((res) => {
       console.log("AXIOSRES asdasd", res);
       setCancha(res.data);
+
     });
   }, [showModal]);
 
   const onChangeF = (e) => {
     setDatos({ ...datos, [e.target.name]: e.target.value });
   };
+
+
+  function generateRandomNumber(min, max) {
+    return Math.floor(Math.random() * (max - min) + min);
+  
+  }
+  const randomNumber = generateRandomNumber(1, 1000000);
+
+
+  const onChangeFecha =(e) =>{
+    setDatos({ ...datos, [e.target.name]: e.target.value });
+    console.log("target value:", e.target.value)
+    axios.post("http://localhost:5001/cancha/disponibilidad/" + id, {fecha: e.target.value}).then((res) => {
+     setHorariosNoDisponibles(res.data)
+     console.log("No disponibles:", res.data)
+     console.log("hcontext.horario", hcontext.horario);
+     console.log("horariosNoDisponibles", horariosNoDisponibles);
+    }
+  )}
   const handleModalOpen = (e) => {
     console.log("MODALOPEN", e);
     console.log("data id", e.Id);
@@ -48,18 +75,16 @@ function Canchas() {
     setShowModal(false);
   };
 
+
   const handlePisoSelect = (Piso) => {
     setPisoSeleccionado(Piso);
     setDatos({ ...datos, ["TipoPiso"]: Piso });
   };
-  const handleTipoTarjetaSelect = (tipoTarjeta) => {
-    setTipoTarjeta(tipoTarjeta);
-    setDatos({ ...datos, ["tipoTarjeta"]: tipoTarjeta });
+  const handleTipoTarjetaSelect = (TipoTarjeta) => {
+    setTipoTarjeta(TipoTarjeta);
+    setDatos({ ...datos, ["TipoTarjeta"]: TipoTarjeta });
   };
 
-  const setSeñaReserva = (seña) =>{
-    setDatos({ ...datos, ["precioSeña"]: seña })
-  }
 
   async function submitEdit(e) {
     e.preventDefault();
@@ -84,11 +109,27 @@ function Canchas() {
   };
 
   async function submitEditReserva(e) {
+
+    const canchaReservar = cancha.find((e) => e.Id === canchaIdEditar)
+    
+    if(typeof e === "undefined")return
+    console.log("e",e)
     e.preventDefault();
+    let newDatos = {
+      NumeroReserva: randomNumber,
+      PrecioSeña:canchaReservar.Precio/2 ,
+      Fecha: datos.Fecha,
+      NumeroTarjeta: datos.NumeroTarjeta,
+      TipoTarjeta: datos.TipoTarjeta,
+      fkUsuario: context.usuario.Id,
+      fkCancha: canchaIdEditar,
+      fkHorario: parseInt(datos.Hora) 
+    }
+    console.log("datosNuevos",newDatos)
     const response = await axios
-      .put(`http://localhost:5001/cancha/reservar/${canchaIdEditar}`, datos)
+      .post(`http://localhost:5001/cancha/reservar/${canchaIdEditar}`, newDatos)
       .then((response) => {
-        setDatos(datos);
+        setDatos(newDatos);
       })
       .catch((error) => {
         console.log("error", e);
@@ -98,20 +139,24 @@ function Canchas() {
 
   if (cancha.length === 0) return <div></div>;
 
-  console.log("PEPE", datos);
-
   document.body.classList = ["Canchas"];
 
-  return context.usuario.fkRol !== 3 ? (
-    <div>
-      <Navbar bg="light" expand="lg">
-        <Navbar.Brand href="#home">Nombre de tu App</Navbar.Brand>
-        <Nav className="mr-auto">
-          <Nav.Link> Inicio </Nav.Link>
-          <Nav.Link href="#link">Otra página</Nav.Link>
-        </Nav>
-        <Navbar.Collapse id="basic-navbar-nav"></Navbar.Collapse>
-      </Navbar>
+  return context.usuario.fkRol === 2 ? (
+    <div className="Fondo">
+       <Row style={{width:'auto'}}>
+            <Navbar className='navBar' style={{paddingLeft:'2%',paddingRight:'2%'}}>
+                <Navbar.Brand><Link to='/'>
+                    <img src={LogoCancheros} width="auto" height="80vh" className="align-top"></img>
+                    </Link></Navbar.Brand>
+                <Nav>
+                    <Nav.Link onClick={() => Navigate(-1 )}>Volver a lugar</Nav.Link> 
+                </Nav>
+                <Nav className="me-auto">
+                <Navbar.Brand className="logOut" onClick={()=>navigateToHome()}>Salir</Navbar.Brand>
+                </Nav>
+            </Navbar>
+            <Outlet/>
+        </Row>
 
       <Container>
         <Row>
@@ -154,12 +199,6 @@ function Canchas() {
                 >
                   Editar
                 </Button>
-                <Button
-                  onClick={() => navigateToReserva(element.Id)}
-                  className="block"
-                >
-                  Reservar
-                </Button>
               </Card>
             </Col>
           ))}
@@ -172,7 +211,7 @@ function Canchas() {
         </Modal.Header>
         <Modal.Body>
           ESTAMOS EDITANDO LA CANCHA
-          <Form onSubmit={submitEdit}>
+          <Form onSubmit={(e)=>submitEdit(e)}>
             <Form.Group size="lg" controlId="nombre">
               <Form.Label>Nombre</Form.Label>
               <Form.Control
@@ -260,7 +299,7 @@ function Canchas() {
               />
             </Form.Group>
             <Button
-              onClick={submitEdit}
+              onClick={()=>submitEdit()}
               size="lg"
               type="submit"
               className="botonGen"
@@ -274,21 +313,28 @@ function Canchas() {
       </Modal>
     </div>
   ) : (
-    <div>
-      <Navbar bg="light" expand="lg">
-        <Navbar.Brand href="#home">Nombre de tu App</Navbar.Brand>
-        <Nav className="mr-auto">
-          <Nav.Link> Inicio </Nav.Link>
-          <Nav.Link href="#link">Otra página</Nav.Link>
-        </Nav>
-        <Navbar.Collapse id="basic-navbar-nav"></Navbar.Collapse>
-      </Navbar>
+    <div className="Fondo">
+      <Row style={{width:'auto'}}>
+            <Navbar className='navBar' style={{paddingLeft:'2%',paddingRight:'2%'}}>
+                <Navbar.Brand><Link to='/'>
+                    <img src={LogoCancheros} width="auto" height="80vh" className="align-top"></img>
+                    </Link></Navbar.Brand>
+                <Nav>
+                     <Nav.Link onClick={() => Navigate("/FormDueño")}>Ser Canchero</Nav.Link> 
+                </Nav>
+                <Nav className="me-auto">
+                <Navbar.Brand className="logOut" onClick={()=>navigateToHome()}>Salir</Navbar.Brand>
+                </Nav>
+            </Navbar>
+            <Outlet/>
+        </Row>
+    
 
       <Container>
-        <Row>
+        <Row >
           {cancha.map((element) => (
-            <Col sm={4}>
-              <Card>
+            <Col sm={4} style={{marginTop:"2%"}}>
+              <Card className="cardCancha">
                 <Card.Header>
                   <img
                     className="card-img-top"
@@ -319,7 +365,7 @@ function Canchas() {
                     </div>
                   </Card.Text>
                 </Card.Body>
-                <Button onClick={() => submitEditReserva} className="block">
+                <Button onClick={() => handleModalOpen(element)} className="block">
                   Reservar
                 </Button>
               </Card>
@@ -334,31 +380,32 @@ function Canchas() {
         </Modal.Header>
         <Modal.Body>
           ESTAMOS RESERVANDO LA CANCHA
-          <Form onSubmit={submitEditReserva}>
+          <Form onSubmit={(e)=>submitEditReserva(e)}>
+            {console.log("mail context",context.usuario.Mail)}
             <Form.Group size="lg" controlId="mailReserva">
               <Form.Label>Mail</Form.Label>
               <Form.Control
                 autoFocus
                 name="mailReserva"
-                value={context.usuario.mail}
+                value={context.usuario.Mail}
                 type="text"
-                onChange={(e) => onChangeF(e)}
+                placeholder={context.usuario.Mail}
               />
             </Form.Group>
-            <Form.Group size="lg" controlId="numeroTarjeta">
+            <Form.Group size="lg" controlId="NumeroTarjeta">
               <Form.Label>Numero de Tarjeta</Form.Label>
               <Form.Control
                 type="number"
-                name="numeroTarjeta"
-                value={datos.numeroTarjeta}
+                name="NumeroTarjeta"
+                value={datos.NumeroTarjeta}
                 onChange={(e) => onChangeF(e)}
               />
             </Form.Group>
 
-            <Form.Group size="lg" controlId="tipoTarjeta">
+            <Form.Group size="lg" controlId="TipoTarjeta">
               <Dropdown>
                 <Dropdown.Toggle variant="primary" id="dropdown-ubicacion">
-                  Tipo de tarjeta: {tipoTarjeta}
+                  Tipo de tarjeta: {TipoTarjeta}
                 </Dropdown.Toggle>
                 <Dropdown.Menu>
                   <Dropdown.Item
@@ -374,17 +421,42 @@ function Canchas() {
                 </Dropdown.Menu>
               </Dropdown>
             </Form.Group>
-            <Form.Group size="lg" controlId="fecha">
-              <Form.Label>Fecha y horario</Form.Label>
+            <Form.Group size="lg" controlId="Fecha">
+              <Form.Label>Fecha</Form.Label>
               <Form.Control
                 type="date"
-                name="fecha"
+                name="Fecha"
                 value={datos.fecha}
-                onChange={(e) => onChangeF(e)}
+                onChange={(e) => onChangeFecha(e)}
               />
             </Form.Group>
+            <Form.Group size="lg" controlId="Hora">
+              <Form.Label>Horario</Form.Label>
+              <Form.Select
+                type="time"
+                name="Hora" 
+                value={datos.hora}
+                onChange={(e) => onChangeF(e)}
+              >
+                {hcontext.horario.map(horario=>
+                  horariosNoDisponibles.find((horariosNoDisponible)=>horariosNoDisponible.Id === horario.Id) === undefined ? (
+                    <option 
+                  value={horario.Id}
+                  >
+                  {horario.Hora}
+                  </option>
+                  ): (
+                    <option 
+                    disabled
+                    value={horario.Id}
+                    >
+                    {horario.Hora}
+                    </option>
+                ))}
+                </Form.Select>
+            </Form.Group>
             <Button
-              onClick={submitEditReserva}
+              onClick={()=>submitEditReserva()}
               size="lg"
               type="submit"
               className="botonGen"
@@ -393,7 +465,6 @@ function Canchas() {
             </Button>
           </Form>
         </Modal.Body>
-
         <Modal.Footer></Modal.Footer>
       </Modal>
     </div>

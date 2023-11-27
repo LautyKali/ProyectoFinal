@@ -73,7 +73,7 @@ function Login() {
                 <Button color="blue" block size="lg" type="submit" className="botonGen" disabled={!validateForm()}>
                     Iniciar sesion </Button>
             </Form>
-            <Button onClick={navigateToRegister} className="block">Crear cuenta
+            <Button onClick={navigateToRegister} className="blockLog">Crear cuenta
             </Button>
         </div>
     );

@@ -14,9 +14,12 @@ import Nav from 'react-bootstrap/Nav';
 import Dropdown from 'react-bootstrap/Dropdown';
 import LogoCancheros from '../../Logo.png'
 import usuarioContext from "../../Context/context";
+import horarioContext from "../../Context/hcontext";
+import { Link,Outlet} from 'react-router-dom';
 
 function Lugar() {
     const context = useContext(usuarioContext)
+    const hcontext = useContext(horarioContext)
     const [lugares, setLugares] = useState([]);
     const [zonaSeleccionada, setZonaSeleccionada] = useState('');
     const Navigate = useNavigate('');
@@ -32,7 +35,9 @@ function Lugar() {
         };
 
 
-
+    useEffect(()=>{
+        console.log("horarioContext",hcontext)
+    },[hcontext.horario])
 
 
     useEffect(() => {
@@ -44,13 +49,16 @@ function Lugar() {
                 .then(res => {
                     console.log("AXIOSRES", res)
                     setLugares(res.data);
+                   
                 });
         } else if (context.usuario.fkRol === 3) {
             axios.get("http://localhost:5001/lugar")
                 .then(res => {
                     console.log("AXIOSRES", res)
-                    setLugares(res.data);
-                });
+                    setLugares(res.data.lugar);
+                    hcontext.setHorarioContext([...res.data.horario])
+                }); 
+              
         }
     }, [context.usuario.fkRol]);
 
@@ -75,25 +83,33 @@ function Lugar() {
     document.body.classList = ["Lugar"];
     return context.usuario.fkRol !== 2 ? (
         <div className="Fondo">
-            <Navbar bg="light" expand="lg">
-                <Navbar.Brand onClick={()=>navigateToHome}><img className="LogoLugar" src={LogoCancheros} alt="Logo Cancheros" /></Navbar.Brand>
-                <Nav className="mr-auto">
-                    <Nav.Link onClick={() => Navigate("/FormDueño")}>Unirse como dueño</Nav.Link>      
+            <Row style={{width:'auto'}}>
+            <Navbar className='navBar' style={{paddingLeft:'2%',paddingRight:'2%'}}>
+                <Navbar.Brand><Link to='/'>
+                    <img src={LogoCancheros} width="auto" height="80vh" className="align-top"></img>
+                    </Link></Navbar.Brand>
+                <Nav>
+                     <Nav.Link onClick={() => Navigate("/FormDueño")}>Ser Canchero</Nav.Link> 
                 </Nav>
-                <Navbar.Brand className="logOut" onClick={navigateToHome}>Salir</Navbar.Brand>
-                <Navbar.Collapse id="basic-navbar-nav"></Navbar.Collapse>
+                <Nav className="me-auto">
+                <Navbar.Brand className="logOut" onClick={()=>navigateToHome()}>Salir</Navbar.Brand>
+                </Nav>
             </Navbar>
+            <Outlet/>
+        </Row>
+    
 
             <Container>
 
-                <Dropdown>
+                <Dropdown className="dropdown">
                     <Dropdown.Toggle variant="primary" id="dropdown-ubicacion">
                         Filtrar por Zona: {zonaSeleccionada || 'Todas'}
                     </Dropdown.Toggle>
-                    <Dropdown.Menu>
+                    <Dropdown.Menu> 
                         <Dropdown.Item onClick={() => handleZonaSelect('')}>Todas</Dropdown.Item>
-                        <Dropdown.Item onClick={() => handleZonaSelect('Caballito')}>Caballito</Dropdown.Item>
-                        <Dropdown.Item onClick={() => handleZonaSelect('Flores')}>Flores</Dropdown.Item>
+                        {lugaresFiltrados.map((element)=>(
+                        <Dropdown.Item onClick={() => handleZonaSelect(`${element.Zona}`)}>{element.Zona}</Dropdown.Item>
+                        ))}
                     </Dropdown.Menu>
                 </Dropdown>
 
@@ -113,7 +129,7 @@ function Lugar() {
                                         <br /><br />
                                         Zona: {element.Zona}
                                     </Card.Text>
-                                    <Button onClick={() => navigateToCanchas(element.Id)} variant="primary">Ver más</Button>
+                                    <Button className = "verMas" onClick={() => navigateToCanchas(element.Id)} variant="primary">Ver más</Button>
                                 </Card.Body>
                             </Card>
                         </Col>
@@ -124,14 +140,20 @@ function Lugar() {
     ) :
         (
             <div className="Fondo">
-                <Navbar className="barraLogo"  expand="lg">
-                    <Navbar.Brand  onClick={()=>navigateToHome}> <img className="LogoLugar" src={LogoCancheros} alt="Logo Cancheros" /></Navbar.Brand>
-                    <Nav className="mr-auto">
-                    <Nav.Link onClick={() => Navigate("/CrearCancha", { state: lugares })}>CrearCancha</Nav.Link>
-                    </Nav>
-                    <Navbar.Brand className="logOut" onClick={navigateToHome}>Salir</Navbar.Brand>
-                    <Navbar.Collapse id="basic-navbar-nav"></Navbar.Collapse>
-                </Navbar>
+                <Row style={{width:'auto'}}>
+            <Navbar className='navBar' style={{paddingLeft:'2%',paddingRight:'2%'}}>
+                <Navbar.Brand><Link to='/'>
+                    <img src={LogoCancheros} width="auto" height="80vh" className="align-top"></img>
+                    </Link></Navbar.Brand>
+                <Nav>
+                    <Nav.Link onClick={() => Navigate("/CrearCancha", { state: lugares })}>CrearCancha</Nav.Link> 
+                </Nav>
+                <Nav className="me-auto">
+                <Navbar.Brand className="logOut" onClick={()=>navigateToHome()}>Salir</Navbar.Brand>
+                </Nav>
+            </Navbar>
+            <Outlet/>
+        </Row>
 
                 <Container>
 
@@ -141,8 +163,9 @@ function Lugar() {
                         </Dropdown.Toggle>
                         <Dropdown.Menu>
                             <Dropdown.Item onClick={() => handleZonaSelect('')}>Todas</Dropdown.Item>
-                            <Dropdown.Item onClick={() => handleZonaSelect('Caballito')}>Caballito</Dropdown.Item>
-                            <Dropdown.Item onClick={() => handleZonaSelect('Flores')}>Flores</Dropdown.Item>
+                            {lugaresFiltrados.map((element)=>(
+                        <Dropdown.Item onClick={() => handleZonaSelect(`${element.Zona}`)}>{element.Zona}</Dropdown.Item>
+                        ))}
                         </Dropdown.Menu>
                     </Dropdown>
 
@@ -162,7 +185,7 @@ function Lugar() {
                                             <br /><br />
                                             Zona: {element.Zona}
                                         </Card.Text>
-                                        <Button onClick={() => navigateToCanchas(element.Id)} variant="primary">Ver más</Button>
+                                        <Button className = "verMas" onClick={() => navigateToCanchas(element.Id)} variant="primary">Ver más</Button>
                                     </Card.Body>
                                 </Card>
                             </Col>

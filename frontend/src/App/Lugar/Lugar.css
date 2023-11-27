@@ -1,5 +1,11 @@
+img.card-img-top{
+    height: auto;
+    max-width: auto !important;
+    max-height: 450px !important;
+}
 
-body{
+
+body.Lugar{
     margin: 0;
     padding: 0;
     font-family: sans-serif;
@@ -8,50 +14,77 @@ body{
     text-align: center;
 }
 
+.navBar{
+    background-color: white;
+    margin: 0%;
+    padding: 0%;
+    margin-top: 0% !important;
+}
+
 .Fondo {
     background-color: #7854C4;
     padding: 20px;
     min-height: 100vh;
 }
 
-
-.LogoLugar {
-    height: auto;
-    width: 10%;
-    padding-right: 40px;
-}
-
-.barraLogo {
-    background-color: rgba(98, 24, 173, 0.651);
-}
-
-.textoLogo {
-    font-size: large;
-}
-
-.card {
-    background-color: #7854C4;
-    margin-bottom: 20px;
-    border: 1px solid #ccc;
-    border-radius: 10px;
+a.nav-link{
     text-align: center;
+    align-items: center;
+    font-size: large;
+    color: black;
+    margin-left: 650%;
 }
 
-.card img {
-    max-width: 100%;
-    height: auto;
-    border-top-left-radius: 10px;
-    border-top-right-radius: 10px;
+a.nav-link:hover{
+    text-align: center;
+    align-items: center;
+    font-size: large;
+    color: #7854C4;
+    margin-left: 650%;
 }
 
-.card h1 {
-    font-size: 24px;
-    color: aliceblue;
+.logOut{
+    font-size: large;
+    cursor: pointer;
+    color: blue;
+    margin-left: 3300%
 }
 
-.mr-auto {
-    background-color: rgba(98, 24, 173, 0.651);
+p.card-text{
+    font-size: x-large;
+}
+  
+.verMas{
+    width: 60%;
     font-size: large;
 }
 
+.custom-card {
+    margin-bottom: 20px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+  }
+  
+  .custom-card img {
+    width: 100%;
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+  }
 
+  .dropdown{
+    margin-top: 2%;
+    margin-bottom: 2%;
+  }
+
+#dropdown-ubicacion{
+font-size: medium;
+}
+
+a.dropdown-item{
+    font-size: medium;
+}
+
+h1{
+    color: black;
+    font-size: xx-large;
+}
