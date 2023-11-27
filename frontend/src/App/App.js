@@ -43,6 +43,7 @@ const App = () => {
             <Route path="/Lugar" element={<Lugar usuario = {usuario} />} />
             <Route path="*" element={<NotFound />} />
             <Route path="/Canchas/:id" element={<Canchas usuario = {usuario} />} />
+            <Route path="/verReservas/:id" element={<verReservas usuario = {usuario} />} />
           </Routes>
         </BrowserRouter>
       </horarioContext.Provider>

@@ -148,6 +148,9 @@ function Lugar() {
                 <Nav>
                     <Nav.Link onClick={() => Navigate("/CrearCancha", { state: lugares })}>CrearCancha</Nav.Link> 
                 </Nav>
+                <Nav>
+                    <Nav.Link onClick={() => Navigate("/verReservas")}>Ver Reservas</Nav.Link> 
+                </Nav>
                 <Nav className="me-auto">
                 <Navbar.Brand className="logOut" onClick={()=>navigateToHome()}>Salir</Navbar.Brand>
                 </Nav>
