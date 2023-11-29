@@ -374,3 +374,44 @@ export class Horario {
 
 
 }
+
+export class ReservaDueño {
+
+  static getReservasByID = async (Id) => {
+    let returnEntity = null;
+    console.log("Estoy en: GetReservasById");
+    try {
+      let pool = await sql.connect(config);
+      let result = await pool
+        .request()
+        .input("pId", sql.Int(), Id)
+        .query(
+          "SELECT * FROM Reservas WHERE fkUsuario = @pId"
+        );
+      // console.log(result.recordset);
+      returnEntity = result.recordset;
+    } catch (error) {
+      console.log(error);
+    }
+    return returnEntity;
+  }
+
+  static getInfoUsuario = async (Id) => {
+    let returnEntity = null;
+    console.log("Estoy en: GetReservasById");
+    try {
+      let pool = await sql.connect(config);
+      let result = await pool
+        .request()
+        .input("pId", sql.Int(), Id)
+        .query(
+          "SELECT * FROM Usuario WHERE fkUsuario = @pId INNER JOIN"
+        );
+      // console.log(result.recordset);
+      returnEntity = result.recordset;
+    } catch (error) {
+      console.log(error);
+    }
+    return returnEntity;
+  }
+}

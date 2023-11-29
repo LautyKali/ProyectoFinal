@@ -1,5 +1,5 @@
 import express from "express";
-import { Usuario, Cancha, Lugar, Horario } from "./Services.js";
+import { Usuario, Cancha, Lugar, Horario, ReservaDueño } from "./Services.js";
 import config from './dbconfig.js';
 import sql from 'mssql';
 import cors from 'cors';
@@ -159,6 +159,12 @@ app.post('/lugar/post', async (req, res) => {
         console.log(error)
         res.status(500).json({ error: 'Fallo la creacion' })
     }
+})
+
+app.get('/reservas/:id', async (req, res) => {
+    const lugar = await ReservaDueño.getReservasByID(req.params.id);
+    console.log(lugar)
+    res.status(200).json(lugar)
 })
 
 app.listen(port, () => {

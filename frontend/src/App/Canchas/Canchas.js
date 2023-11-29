@@ -53,6 +53,21 @@ function Canchas() {
   }
   const randomNumber = generateRandomNumber(1, 1000000);
 
+  const deleteCancha =(e)=>{
+    e.preventDefault()
+    axios.delete(`http://localhost:5001/cancha/delete/${id}`)
+    .then(response => {
+      console.log(`Cancha borrada con ID ${canchaIdEditar}`);
+      Navigate("/Lugar")
+    })
+    .catch(error => {
+      console.error(error);
+    });
+  }
+
+
+
+
 
   const onChangeFecha =(e) =>{
     setDatos({ ...datos, [e.target.name]: e.target.value });
@@ -216,12 +231,6 @@ function Canchas() {
                   className="block"
                 >
                   Editar
-                </Button>
-                <Button
-                  onClick={() => deleteCancha(element)}
-                  className="eliminarBoton"
-                >
-                  Eliminar
                 </Button>
               </Card>
             </Col>
@@ -472,6 +481,7 @@ function Canchas() {
                   </option>
                   ): (
                     <option 
+                    disabled
                     value={horario.Id}
                     >
                     {horario.Hora}
