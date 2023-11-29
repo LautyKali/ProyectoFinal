@@ -155,7 +155,7 @@ function Canchas() {
     handleModalClose();
   }
 
-  const deleteCancha =(e)=>{
+  const eliminarCancha =(e)=>{
     e.preventDefault()
     axios.delete(`http://localhost:5001/cancha/delete/${canchaIdEditar}`)
     .then(response => {
@@ -231,6 +231,12 @@ function Canchas() {
                   className="block"
                 >
                   Editar
+                </Button>
+                <Button
+                  onClick={() => eliminarCancha(element)}
+                  className="eliminarBoton"
+                >
+                  Eliminar
                 </Button>
               </Card>
             </Col>
@@ -339,6 +345,7 @@ function Canchas() {
             >
               Guardar
             </Button>
+            
           </Form>
         </Modal.Body>
 
