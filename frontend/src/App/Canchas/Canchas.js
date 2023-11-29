@@ -57,7 +57,8 @@ function Canchas() {
   const onChangeFecha =(e) =>{
     setDatos({ ...datos, [e.target.name]: e.target.value });
     console.log("target value:", e.target.value)
-    axios.post("http://localhost:5001/cancha/disponibilidad/" + id, {fecha: e.target.value}).then((res) => {
+    axios.post("http://localhost:5001/cancha/disponibilidad/" + canchaIdEditar, {fecha: e.target.value})
+    .then((res) => {
      setHorariosNoDisponibles(res.data)
      console.log("No disponibles:", res.data)
      console.log("hcontext.horario", hcontext.horario);
@@ -109,9 +110,7 @@ function Canchas() {
   };
 
   async function submitEditReserva(e) {
-
     const canchaReservar = cancha.find((e) => e.Id === canchaIdEditar)
-    
     if(typeof e === "undefined")return
     console.log("e",e)
     e.preventDefault();
@@ -130,12 +129,31 @@ function Canchas() {
       .post(`http://localhost:5001/cancha/reservar/${canchaIdEditar}`, newDatos)
       .then((response) => {
         setDatos(newDatos);
+        axios.post("http://localhost:5001/cancha/disponibilidad/" + canchaIdEditar, {fecha: datos.Fecha})
+    .then((res) => {
+     setHorariosNoDisponibles(res.data)
+    })
       })
       .catch((error) => {
         console.log("error", e);
       });
     handleModalClose();
   }
+
+  const deleteCancha =(e)=>{
+    e.preventDefault()
+    axios.delete(`http://localhost:5001/cancha/delete/${canchaIdEditar}`)
+    .then(response => {
+      console.log(`Cancha borrada con ID ${canchaIdEditar}`);
+      Navigate("/Lugar")
+    })
+    .catch(error => {
+      console.error(error);
+    });
+  }
+
+
+
 
   if (cancha.length === 0) return <div></div>;
 
@@ -199,6 +217,12 @@ function Canchas() {
                 >
                   Editar
                 </Button>
+                <Button
+                  onClick={() => deleteCancha(element)}
+                  className="eliminarBoton"
+                >
+                  Eliminar
+                </Button>
               </Card>
             </Col>
           ))}
@@ -232,7 +256,7 @@ function Canchas() {
               />
             </Form.Group>
             <Form.Group size="lg" controlId="enReparacion">
-              <Form.Label>Disponible?</Form.Label>
+              <Form.Label>Disponibilidad</Form.Label>
               <Form.Check
                 inline
                 type="radio"
@@ -262,7 +286,7 @@ function Canchas() {
               />
             </Form.Group>
             <Form.Group size="lg" controlId="cantPersonas">
-              <Form.Label>cantidad de personas</Form.Label>
+              <Form.Label>Cantidad de personas</Form.Label>
               <Form.Control
                 type="number"
                 name="CantPersonas"
@@ -439,15 +463,15 @@ function Canchas() {
                 onChange={(e) => onChangeF(e)}
               >
                 {hcontext.horario.map(horario=>
-                  horariosNoDisponibles.find((horariosNoDisponible)=>horariosNoDisponible.Id === horario.Id) === undefined ? (
-                    <option 
+                 horariosNoDisponibles.some(element=> element.fkHorario === horario.Id) ? (
+                    <option className="noDisponibles"
+                  disabled 
                   value={horario.Id}
                   >
                   {horario.Hora}
                   </option>
                   ): (
                     <option 
-                    disabled
                     value={horario.Id}
                     >
                     {horario.Hora}

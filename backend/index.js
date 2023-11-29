@@ -92,6 +92,7 @@ app.put('/cancha/put/:id', async (req, res) => {
 
 //funca
 app.delete('/cancha/delete/:id', async (req, res) => {
+    console.log("delete cancha", req.body )
     const cancha = await Cancha.deleteById(req.params.id)
     res.status(202).send(cancha)
 })
@@ -104,21 +105,30 @@ app.get('/canchaId/:id', async (req, res) => {
 
 app.post('/cancha/reservar/:id', async (req, res) => {
     try {
+        let horariosNoDisponible = await Cancha.getDisponibilidadCanchaXDia(req.params.id, req.body.Fecha)
+        if (horariosNoDisponible.some(element=> element.fkHorario === req.body.fkHorario)) {
+            res.status(400).json({error: "horario ya ocupado"})
+            return;
+        }
+        else{
         let r = await Cancha.reservar(req.params.id, req.body)
         console.log("que es r", r)
         let h = await Cancha.reservarHorario(r, req.body.fkHorario)
         res.status(201).json({ message: 'Reserva exitosa' })
+    }
     } catch (error) {
         console.log(error)
         res.status(500).json({ error: 'Fallo la reserva' })
     }
+
 })
 
 
 app.post('/cancha/disponibilidad/:id', async (req, res) => {
     let disponibilidad = await Cancha.getDisponibilidadCanchaXDia(req.params.id, req.body.fecha)
     console.log("req.body:", req.body)
-    res.status(200).json(disponibilidad)
+    console.log("disponibilidadaaaaaaaaa",disponibilidad)
+    res.status(200).json(disponibilidad) 
 })
 
 //funca

@@ -116,3 +116,11 @@ h1{
     color: black;
     font-size: xx-large;
 }
+
+.noDisponibles{
+    background-color: red;
+}
+.eliminarBoton{
+    background-color: red;
+    color: white;
+}

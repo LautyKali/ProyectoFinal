@@ -30,6 +30,14 @@ const App = () => {
     localStorage.setItem("usuario", JSON.stringify(usuario))
   }, [usuario])
 
+  useEffect(() => {
+    localStorage.getItem("horario") !== null ? setHorarioContext(JSON.parse(localStorage.getItem("horario"))) : varTemp =0
+  }, [])
+
+  useEffect(() => {
+    localStorage.setItem("horario", JSON.stringify(horario))
+  }, [horario])
+
   return (
     <usuarioContext.Provider value={{ usuario, setUsuarioContext }}>
       <horarioContext.Provider value={{ horario, setHorarioContext }}>

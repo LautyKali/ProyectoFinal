@@ -136,7 +136,7 @@ export class Cancha {
 
   static getDisponibilidadCanchaXDia = async(id,fecha)=>{
     let returnEntity = null;
-    console.log("Estoy en: Getdisponibilidad");
+    console.log("Estoy en: Getdisponibilidad", id, fecha);
     try{
       let pool = await sql.connect(config);
       let result = await pool
