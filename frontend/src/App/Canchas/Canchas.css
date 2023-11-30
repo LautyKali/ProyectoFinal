@@ -124,3 +124,8 @@ h1{
     background-color: red;
     color: white;
 }
+
+.eliminarBoton:hover{
+    background-color: red;
+    color: white;
+}

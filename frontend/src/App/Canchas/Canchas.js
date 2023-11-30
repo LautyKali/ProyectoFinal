@@ -217,9 +217,7 @@ function Canchas() {
                     </div>
                     <div>Cantidad de personas: {element.CantPersonas}</div>
                     <br />
-                    <br />
                     <div>Tipo de cancha : {element.TipoPiso} </div>
-                    <br />
                     <br />
                     <div>Precio: {element.Precio}</div>
                     <div>
@@ -395,20 +393,15 @@ function Canchas() {
                     </div>
                     <div>Cantidad de personas: {element.CantPersonas}</div>
                     <br />
-                    <br />
                     <div>Tipo de cancha : {element.TipoPiso} </div>
                     <br />
-                    <br />
                     <div>Precio: {element.Precio}</div>
-                    <div>
-                      Disponibilidad:{" "}
-                      {element.EnReparacion ? "No dispobible" : "Disponible"}
-                    </div>
                   </Card.Text>
                 </Card.Body>
-                <Button onClick={() => handleModalOpen(element)} className="block">
+                {element.EnReparacion ? <h1>No disponible</h1> :<Button onClick={() => handleModalOpen(element)} className="block">
                   Reservar
-                </Button>
+                </Button> } 
+
               </Card>
             </Col>
           ))}
