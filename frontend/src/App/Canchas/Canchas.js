@@ -94,11 +94,11 @@ function Canchas() {
 
   const handlePisoSelect = (Piso) => {
     setPisoSeleccionado(Piso);
-    setDatos({ ...datos, ["TipoPiso"]: Piso });
+    setDatos({ ...datos, TipoPiso: Piso });
   };
   const handleTipoTarjetaSelect = (TipoTarjeta) => {
     setTipoTarjeta(TipoTarjeta);
-    setDatos({ ...datos, ["TipoTarjeta"]: TipoTarjeta });
+    setDatos({ ...datos, TipoTarjeta: TipoTarjeta });
   };
 
 
@@ -107,7 +107,8 @@ function Canchas() {
     const response = await axios
       .put(`http://localhost:5001/cancha/put/${canchaIdEditar}`, datos)
       .then((response) => {
-        setDatos(datos);
+       // setDatos(datos);
+        console.log("datosEditados",datos)
       })
       .catch((error) => {
         console.log("error", e);
@@ -118,6 +119,7 @@ function Canchas() {
   const handleChangeToF = (e) => {
     e.persist();
     onChangeF(e);
+    console.log("e del change", e.target.value)
   };
 
   const navigateToHome = () => {
@@ -156,9 +158,9 @@ function Canchas() {
   }
 
   const eliminarCancha =(e)=>{
-    e.preventDefault()
-    axios.delete(`http://localhost:5001/cancha/delete/${canchaIdEditar}`)
+    axios.delete(`http://localhost:5001/cancha/delete/${e.Id}`)
     .then(response => {
+      console.log("response", response)
       console.log(`Cancha borrada con ID ${canchaIdEditar}`);
       Navigate("/Lugar")
     })
@@ -222,7 +224,7 @@ function Canchas() {
                     <div>Precio: {element.Precio}</div>
                     <div>
                       Disponibilidad:{" "}
-                      {element.EnReparacion ? "No dispobible" : "Disponible"}
+                      {element.EnReparacion ? "No disponible" : "Disponible"}
                     </div>
                   </Card.Text>
                 </Card.Body>
@@ -275,20 +277,20 @@ function Canchas() {
               <Form.Check
                 inline
                 type="radio"
-                value={true}
+                value={false}
                 aria-label="radio 1"
                 label="Si"
                 name="EnReparacion"
-                onChange={(e) => handleChangeToF(e)}
+                onChange={handleChangeToF}
               />
               <Form.Check
                 inline
                 type="radio"
                 aria-label="radio 1"
-                value={false}
+                value={true}
                 name="EnReparacion"
                 label="No"
-                onChange={(e) => handleChangeToF(e)}
+                onChange={handleChangeToF}
               />
             </Form.Group>
             <Form.Group size="lg" controlId="foto">
@@ -296,7 +298,6 @@ function Canchas() {
               <Form.Control
                 type="file"
                 name="Foto"
-                value={datos.Foto}
                 onChange={(e) => onChangeF(e)}
               />
             </Form.Group>
@@ -338,7 +339,7 @@ function Canchas() {
               />
             </Form.Group>
             <Button
-              onClick={()=>submitEdit()}
+              onClick={(e)=>submitEdit(e)}
               size="lg"
               type="submit"
               className="botonGen"
@@ -488,7 +489,6 @@ function Canchas() {
                   </option>
                   ): (
                     <option 
-                    disabled
                     value={horario.Id}
                     >
                     {horario.Hora}

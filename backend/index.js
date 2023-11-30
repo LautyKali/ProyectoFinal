@@ -86,6 +86,7 @@ app.post('/cancha/post', async (req, res) => {
 //funca
 app.put('/cancha/put/:id', async (req, res) => {
     let cancha = await Cancha.update(req.params.id, req.body);
+    console.log("bodyUpdate",req.body)
     res.status(202).send(cancha);
 })
 
@@ -93,6 +94,7 @@ app.put('/cancha/put/:id', async (req, res) => {
 //funca
 app.delete('/cancha/delete/:id', async (req, res) => {
     console.log("delete cancha", req.body )
+    const reservaD = await ReservaDueño.deleteReservasById(req.params.id)
     const cancha = await Cancha.deleteById(req.params.id)
     res.status(202).send(cancha)
 })
@@ -162,7 +164,7 @@ app.post('/lugar/post', async (req, res) => {
 })
 
 app.get('/reservas/:id', async (req, res) => {
-    const lugar = await ReservaDueño.getReservasByID(req.params.id);
+    const lugar = await ReservaDueño.getInfoReservasByID(req.params.id);
     console.log(lugar)
     res.status(200).json(lugar)
 })

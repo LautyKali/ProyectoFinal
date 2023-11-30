@@ -201,7 +201,7 @@ export class Cancha {
         .input("Nombre", sql.NVarChar(4000), Nombre)
         .input("Foto", sql.NVarChar(4000), Foto)
         .input("Deporte", sql.NVarChar(4000), Deporte)
-        .input("EnReparacion", sql.Bit, EnReparacion)
+        .input("EnReparacion", sql.Bit, EnReparacion === "true")
         .input("CantPersonas", sql.Int, CantPersonas)
         .input("TipoPiso", sql.NVarChar(4000), TipoPiso)
         .input("Precio", sql.Float, Precio)
@@ -230,6 +230,8 @@ export class Cancha {
     }
     return returnEntity;
   };
+
+
 
   static reservar = async (Id, reserva) => {
     const {
@@ -377,41 +379,39 @@ export class Horario {
 
 export class ReservaDueño {
 
-  static getReservasByID = async (Id) => {
+  static getInfoReservasByID = async (IdU) => {
     let returnEntity = null;
     console.log("Estoy en: GetReservasById");
     try {
       let pool = await sql.connect(config);
       let result = await pool
         .request()
-        .input("pId", sql.Int(), Id)
+        .input("pIdU", sql.Int(), IdU)
         .query(
-          "SELECT * FROM Reservas WHERE fkUsuario = @pId"
+          "SELECT R.PrecioSeña, R.Fecha, R.NumeroReserva, U.Mail, C.Nombre AS NombreC, L.Nombre AS NombreL FROM Lugar L INNER JOIN Cancha C ON C.fkLugar = L.Id INNER JOIN Reserva R ON R.fkCancha = C.Id INNER JOIN Usuario U ON U.Id = L.fkDueño WHERE L.fkDueño = @pIdU"
         );
-      // console.log(result.recordset);
-      returnEntity = result.recordset;
+      returnEntity = result.recordsets[0];
     } catch (error) {
       console.log(error);
     }
     return returnEntity;
   }
 
-  static getInfoUsuario = async (Id) => {
+  static deleteReservasById = async (Id) => {
     let returnEntity = null;
-    console.log("Estoy en: GetReservasById");
+    console.log("Estoy en: Borrar reservas");
     try {
       let pool = await sql.connect(config);
       let result = await pool
         .request()
-        .input("pId", sql.Int(), Id)
-        .query(
-          "SELECT * FROM Usuario WHERE fkUsuario = @pId INNER JOIN"
-        );
-      // console.log(result.recordset);
-      returnEntity = result.recordset;
+        .input("pId", sql.Int, Id)
+        .query("Delete FROM Reservas WHERE fkCancha = @pId");
+      returnEntity = result.recordsets[0];
     } catch (error) {
       console.log(error);
     }
     return returnEntity;
-  }
+  };
+
 }
+

@@ -21,6 +21,7 @@ function Lugar() {
     const context = useContext(usuarioContext)
     const hcontext = useContext(horarioContext)
     const [lugares, setLugares] = useState([]);
+    const [zonasFiltradas, setZonasFiltradas] = useState([])
     const [zonaSeleccionada, setZonaSeleccionada] = useState('');
     const Navigate = useNavigate('');
     const [isDropdownOpen, setDropdownOpen] = useState(false);
@@ -38,6 +39,8 @@ function Lugar() {
     useEffect(()=>{
         console.log("horarioContext",hcontext)
     },[hcontext.horario])
+
+   
 
 
     useEffect(() => {
@@ -60,11 +63,23 @@ function Lugar() {
                 }); 
               
         }
-    }, [context.usuario.fkRol]);
+    }, [context.usuario.fkRol]); 
+
+    useEffect(()=>{
+        console.log("lugares", lugares)
+        if (lugares.length === 0) {
+            return
+        }else{
+        const x = lugares.map(lugar=>lugar.Zona)
+       setZonasFiltradas([...new Set(x)])}
+    },[lugares])
 
     const navigateToCanchas = (IdL) => {
         console.log("lugarID", IdL)
         Navigate('/Canchas/' + IdL);
+    }
+    function navigateToReservas()  {
+        Navigate('/verReservas');
     }
 
     const navigateToHome = () => {
@@ -74,10 +89,6 @@ function Lugar() {
     const handleZonaSelect = (Zona) => {
         setZonaSeleccionada(Zona);
     }
-
-    const lugaresFiltrados = lugares.filter((lugar) =>
-        zonaSeleccionada === '' || lugar.Zona === zonaSeleccionada
-    );
 
     if (lugares.length === 0) return (<div></div>);
     document.body.classList = ["Lugar"];
@@ -107,14 +118,14 @@ function Lugar() {
                     </Dropdown.Toggle>
                     <Dropdown.Menu> 
                         <Dropdown.Item onClick={() => handleZonaSelect('')}>Todas</Dropdown.Item>
-                        {lugaresFiltrados.map((element)=>(
-                        <Dropdown.Item onClick={() => handleZonaSelect(`${element.Zona}`)}>{element.Zona}</Dropdown.Item>
+                        {zonasFiltradas.map((element)=>(
+                        <Dropdown.Item onClick={() => handleZonaSelect(`${element}`)}>{element}</Dropdown.Item>
                         ))}
                     </Dropdown.Menu>
                 </Dropdown>
 
                 <Row>
-                    {lugaresFiltrados.map((element) => (
+                    {lugares.map((element) => (
                         <Col sm={6}>
                             <Card className="custom-card">
                                 <Card.Header>
@@ -144,12 +155,12 @@ function Lugar() {
             <Navbar className='navBar' style={{paddingLeft:'2%',paddingRight:'2%'}}>
                 <Navbar.Brand><Link to='/'>
                     <img src={LogoCancheros} width="auto" height="80vh" className="align-top"></img>
-                    </Link></Navbar.Brand>
+                    </Link></Navbar.Brand>  
                 <Nav>
                     <Nav.Link onClick={() => Navigate("/CrearCancha", { state: lugares })}>CrearCancha</Nav.Link> 
                 </Nav>
                 <Nav>
-                    <Nav.Link onClick={() => Navigate("/verReservas")}>Ver Reservas</Nav.Link> 
+                    <Nav.Link onClick={() => navigateToReservas()}>Ver Reservas</Nav.Link> 
                 </Nav>
                 <Nav className="me-auto">
                 <Navbar.Brand className="logOut" onClick={()=>navigateToHome()}>Salir</Navbar.Brand>
@@ -166,14 +177,14 @@ function Lugar() {
                         </Dropdown.Toggle>
                         <Dropdown.Menu>
                             <Dropdown.Item onClick={() => handleZonaSelect('')}>Todas</Dropdown.Item>
-                            {lugaresFiltrados.map((element)=>(
-                        <Dropdown.Item onClick={() => handleZonaSelect(`${element.Zona}`)}>{element.Zona}</Dropdown.Item>
+                            {zonasFiltradas.map((element)=>(
+                        <Dropdown.Item onClick={() => handleZonaSelect(`${element}`)}>{element}</Dropdown.Item>
                         ))}
                         </Dropdown.Menu>
                     </Dropdown>
 
                     <Row>
-                        {lugaresFiltrados.map((element) => (
+                        {lugares.map((element) => (
                             <Col sm={6}>
                                 <Card className="custom-card">
                                     <Card.Header>

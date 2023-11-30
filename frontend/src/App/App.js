@@ -14,6 +14,7 @@ import CrearCancha from './CrearCancha/CrearCancha'
 import usuarioContext from '../Context/context';
 import horarioContext from '../Context/hcontext';
 import NotFound from './NotFound/NotFound';
+import VerReservas from './verReservas/verReservas.js';
 
 
 const App = () => {
@@ -51,7 +52,7 @@ const App = () => {
             <Route path="/Lugar" element={<Lugar usuario = {usuario} />} />
             <Route path="*" element={<NotFound />} />
             <Route path="/Canchas/:id" element={<Canchas usuario = {usuario} />} />
-            <Route path="/verReservas/:id" element={<verReservas usuario = {usuario} />} />
+            <Route path="/VerReservas" element={<VerReservas usuario = {usuario} />} />
           </Routes>
         </BrowserRouter>
       </horarioContext.Provider>
